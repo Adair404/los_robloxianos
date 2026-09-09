@@ -1,566 +1,1734 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiceoMap</title>
 
-    <title>OpenEduca</title>
+    <!-- Tipografías -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- CSS Propio -->
     <link rel="stylesheet" href="style.css">
+    <!-- Estilos exclusivos del plano interactivo -->
+    <style>
+        /* El plano es vectorial: no utiliza la imagen de referencia */
+        #map {
+            background: #e9e5d9;
+        }
+
+        .etiqueta-mapa {
+            background: transparent !important;
+            border: 0 !important;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .etiqueta-mapa span {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.88);
+            color: #183f40;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.15;
+            box-shadow: 0 2px 8px rgba(0,0,0,.10);
+            border: 1px solid rgba(24,63,64,.15);
+            transform: translate(-50%, -50%);
+        }
+
+        .etiqueta-mapa.etiqueta-grande span {
+            font-size: 16px;
+            padding: 7px 11px;
+        }
+
+        .etiqueta-mapa.etiqueta-mediana span {
+            font-size: 13px;
+        }
+
+        .etiqueta-mapa.etiqueta-pequena span {
+            font-size: 10px;
+            padding: 3px 5px;
+        }
+
+        .etiqueta-mapa.etiqueta-vertical span {
+            writing-mode: vertical-rl;
+            transform: translate(-50%, -50%) rotate(180deg);
+            font-size: 11px;
+        }
+
+        .etiqueta-mapa.etiqueta-plano span {
+            background: #183f40;
+            color: white;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .popup-mapa {
+            min-width: 180px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .popup-mapa .popup-etiqueta {
+            display: block;
+            margin-bottom: 5px;
+            color: #6d9a8d;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .popup-mapa strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #183f40;
+            font-size: 15px;
+        }
+
+        .popup-mapa p {
+            margin: 0;
+            color: #667573;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .control-busqueda-mapa {
+            display: flex;
+            gap: 5px;
+            padding: 6px;
+            background: rgba(255,255,255,.94);
+            border: 1px solid #d5dfdb;
+            border-radius: 8px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.12);
+        }
+
+        .control-busqueda-mapa input {
+            width: 155px;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: #26383a;
+            font-family: inherit;
+            font-size: 12px;
+            padding: 6px 7px;
+        }
+
+        .control-busqueda-mapa button {
+            width: 31px;
+            height: 31px;
+            border: 0;
+            border-radius: 6px;
+            background: #234b4d;
+            color: white;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .control-busqueda-mapa button:hover {
+            background: #315d5f;
+        }
+
+        .control-busqueda-mapa input.busqueda-error {
+            animation: errorBusqueda .35s ease;
+        }
+
+        @keyframes errorBusqueda {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        body.oscuro #map {
+            background: #303b3a;
+        }
+
+        body.oscuro .etiqueta-mapa span {
+            background: rgba(44,57,58,.94);
+            color: #dce9e3;
+            border-color: #506060;
+        }
+
+        body.oscuro .etiqueta-mapa.etiqueta-plano span {
+            background: #dce9e3;
+            color: #183f40;
+        }
+
+        body.oscuro .popup-mapa strong {
+            color: #dce9e3;
+        }
+
+        body.oscuro .popup-mapa p {
+            color: #b5c0be;
+        }
+
+        body.oscuro .control-busqueda-mapa {
+            background: rgba(44,57,58,.96);
+            border-color: #506060;
+        }
+
+        body.oscuro .control-busqueda-mapa input {
+            color: #eeeeee;
+        }
+
+        @media (max-width: 700px) {
+            .control-busqueda-mapa input {
+                width: 105px;
+            }
+
+            .etiqueta-mapa.etiqueta-grande span {
+                font-size: 12px;
+            }
+
+            .etiqueta-mapa.etiqueta-mediana span {
+                font-size: 10px;
+            }
+        }
+    </style>
 
 </head>
 
-
 <body>
 
-    <!-- =========================
-         CABECERA
-    ========================== -->
+<!-- CORTINA DE CARGA (CINEMATOGRÁFICA) -->
+<div class="page-loader" id="pageLoader">
+    <div class="loader-content">
+        <span class="loader-tag">LICEOMAP</span>
+        <div class="loader-counter"><span id="loaderPercent">00</span>%</div>
+        <p class="loader-sub">EXPLORA TU LICEO</p>
+    </div>
+</div>
 
-    <header>
+<header>
+    <div class="logo">
+        <img src="image-removebg-preview.png" alt="Logo Liceo" class="logo-animado">
+        <h2>LiceoMap</h2>
+    </div>
 
-        <div class="logo">
+    <nav class="menu-principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#explorar">Explorar</a>
+        <a href="#mapa">Mapa del Liceo</a>
+        <a href="#informacion">Información</a>
+    </nav>
 
-            <div class="logo-icon">
-                🎓
+    <div class="header-buttons">
+        <button class="header-button" onclick="abrirPanel('notificaciones')" title="Notificaciones">🔔</button>
+        <button class="header-button" onclick="abrirPanel('ajustes')" title="Ajustes">⚙️</button>
+        <button class="header-button" onclick="abrirPanel('perfil')" title="Perfil">👤</button>
+        <a href="login.html" id="btnPerfilNav" class="login-header-button">Iniciar sesión</a>
+    </div>
+</header>
+
+<div id="ajustes" class="panel">
+    <div class="panel-header">
+        <h3>Ajustes</h3>
+        <button onclick="cerrarPanel('ajustes')" class="cerrar-panel">×</button>
+    </div>
+    <div class="panel-content">
+        <div class="ajuste-item">
+            <div>
+                <strong>Modo oscuro</strong>
+                <p>Cambiar la apariencia de la página.</p>
             </div>
+            <button id="switchOscuro" class="switch" onclick="modoOscuro()">
+                <span></span>
+            </button>
+        </div>
+        <div class="ajuste-item">
+            <div>
+                <strong>Notificaciones</strong>
+                <p>Recibir avisos importantes.</p>
+            </div>
+            <button class="switch activo"><span></span></button>
+        </div>
+    </div>
+</div>
 
-            <h2>
-                OpenEduca
-            </h2>
+<div id="notificaciones" class="panel">
+    <div class="panel-header">
+        <h3>Notificaciones</h3>
+        <button onclick="cerrarPanel('notificaciones')" class="cerrar-panel">×</button>
+    </div>
+    <div class="panel-content">
+        <div class="notificacion">
+            <span class="notificacion-icono">📢</span>
+            <div>
+                <strong>Bienvenido a LiceoMap</strong>
+                <p>Explora las salas y espacios del establecimiento.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div id="perfil" class="panel">
+    <div class="panel-header">
+        <h3>Perfil</h3>
+        <button onclick="cerrarPanel('perfil')" class="cerrar-panel">×</button>
+    </div>
+    <div class="panel-content">
+        <div class="perfil-principal">
+            <div class="perfil-avatar">👤</div>
+            <div>
+                <h4 id="nombreUsuarioPerfil">Estudiante</h4>
+                <p id="cursoUsuarioPerfil">3° Medio</p>
+            </div>
+        </div>
+        <button onclick="cerrarSesion()" class="perfil-cerrar">Cerrar sesión</button>
+    </div>
+</div>
+
+<main>
+    <section id="inicio" class="hero">
+        <div class="hero-bg-parallax" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-contenido">
+            <p class="hero-superior reveal reveal-up">LICEO ANTONIO VARAS DE LA BARRA</p>
+            <h1 class="reveal reveal-up delay-1">ENCUENTRA<br><span class="texto-gradiente">TU LUGAR.</span></h1>
+            <p class="hero-descripcion reveal reveal-up delay-2">
+                Explora tu liceo, encuentra salas, consulta tu horario y descubre los espacios que forman parte de tu día.
+            </p>
+            <a href="#explorar" class="hero-boton reveal reveal-up delay-3">
+                Explorar el liceo <span>↓</span>
+            </a>
         </div>
 
+        <div class="hero-indicador reveal reveal-up delay-4">
+            <span>DESLIZA PARA EXPLORAR</span>
+            <div class="linea-scroll"></div>
+        </div>
+    </section>
 
-        <div class="header-buttons">
+    <section class="intro reveal reveal-left">
+        <div class="intro-numero">01</div>
+        <div class="intro-contenido">
+            <p class="etiqueta">EL LICEO</p>
+            <h2>Un espacio para <span class="destacado">aprender.</span></h2>
+            <p>
+                LiceoMap nace para facilitar la orientación dentro del Liceo Antonio Varas de la Barra.
+                <br><br>
+                Nuestra plataforma permite encontrar salas, revisar horarios y conocer los distintos espacios del establecimiento de una manera simple e intuitiva.
+            </p>
+            <div class="intro-imagen-container">
+                <img src="estudiantes.png" alt="Vida Estudiantil" class="intro-imagen">
+            </div>
+        </div>
+    </section>
 
-            <!-- NOTIFICACIONES -->
+    <section id="explorar" class="explorar">
+        <div class="seccion-titulo reveal reveal-up">
+            <div>
+                <p class="etiqueta">EXPLORAR</p>
+                <h2>Todo lo que<br>necesitas.</h2>
+            </div>
+            <span class="numero-seccion">02</span>
+        </div>
 
-            <button
-                class="header-button"
-                onclick="abrirPanel('notificaciones')">
-
-                🔔
-
-            </button>
-
-
-            <!-- AJUSTES -->
-
-            <button
-                class="header-button"
-                onclick="abrirPanel('ajustes')">
-
-                ⚙️
-
-            </button>
-
-
-            <!-- PERFIL -->
-
-            <button
-                class="header-button"
-                onclick="abrirPanel('perfil')">
-
-                👤
-
-            </button>
-
-
-            <!-- INICIAR SESIÓN -->
-
-            <a
-                href="login.html"
-                class="login-header-button">
-
-                Iniciar sesión
-
+        <div class="explorar-grid reveal reveal-zoom">
+            <a href="salas.html" class="explorar-card reveal reveal-up delay-1">
+                <div class="card-numero">01</div>
+                <div class="card-icono">📍</div>
+                <div class="card-contenido">
+                    <p>UBICACIÓN</p>
+                    <h3>Salas</h3>
+                    <span>Encuentra tu sala →</span>
+                </div>
             </a>
 
+            <a href="horarios.html" class="explorar-card reveal reveal-up delay-2">
+                <div class="card-numero">02</div>
+                <div class="card-icono">🗓️</div>
+                <div class="card-contenido">
+                    <p>ORGANIZA TU DÍA</p>
+                    <h3>Horarios</h3>
+                    <span>Consulta tu horario →</span>
+                </div>
+            </a>
+
+            <a href="biblioteca.html" class="explorar-card reveal reveal-up delay-3">
+                <div class="card-numero">03</div>
+                <div class="card-icono">📚</div>
+                <div class="card-contenido">
+                    <p>APRENDER Y DISFRUTAR</p>
+                    <h3>Biblioteca</h3>
+                    <span>Conoce este espacio →</span>
+                </div>
+            </a>
+
+            <a href="#informacion" class="explorar-card reveal reveal-up delay-4">
+                <div class="card-numero">04</div>
+                <div class="card-icono">ℹ️</div>
+                <div class="card-contenido">
+                    <p>CONOCE TU LICEO</p>
+                    <h3>Información</h3>
+                    <span>Conoce más →</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="buscador-seccion reveal reveal-up">
+        <div class="buscador-texto">
+            <p class="etiqueta">BÚSQUEDA RÁPIDA</p>
+            <h2>¿Dónde<br>tengo que ir?</h2>
         </div>
 
-    </header>
+        <div class="buscador">
+            <span class="buscador-icono">🔎</span>
+            <input type="text" id="busquedaSala" placeholder="Busca una zona, por ejemplo: Gimnasio" autocomplete="off">
+            <button onclick="buscarSalaInicio()">Buscar</button>
+        </div>
 
+        <p class="buscador-ayuda">Escribe el nombre de la zona que estás buscando (ej: Gimnasio, Computación, Dirección).</p>
+    </section>
 
-    <!-- =========================
-         PANEL AJUSTES
-    ========================== -->
+    <!-- SECCIÓN MAPA DEL LICEO -->
+    <section id="mapa" class="mapa-seccion">
+        <div class="mapa-cabecera reveal reveal-left">
+            <div>
+                <p class="etiqueta">PLANO INTERACTIVO</p>
+                <h2>Mapa del Liceo.</h2>
+            </div>
+            <div class="mapa-descripcion">
+                <p>Navega sobre el plano oficial del establecimiento. Haz clic en los marcadores para identificar cada área y sala.</p>
+                <a href="#explorar">Ver secciones principales →</a>
+            </div>
+        </div>
 
-    <div id="ajustes" class="panel">
+        <div class="mapa-wrapper reveal reveal-zoom delay-2">
+            <div id="map" class="mapa"></div>
+        </div>
+    </section>
 
-        <h3>
-            Ajustes de OpenEduca
-        </h3>
-
-
-        <div class="panel-opcion">
-
-            <span>
-                Modo oscuro
-            </span>
-
-            <div
-                id="switchOscuro"
-                class="switch"
-                onclick="modoOscuro()">
+    <!-- SECCIÓN INFORMACIÓN -->
+    <section id="informacion" class="informacion-seccion reveal reveal-right">
+        <div class="informacion-numero">03</div>
+        <div class="informacion-contenido">
+            <div class="informacion-titulo">
+                <p class="etiqueta">INFORMACIÓN</p>
+                <h2>Conoce el<br><span class="destacado">establecimiento.</span></h2>
             </div>
 
-        </div>
-
-
-        <div class="panel-opcion">
-
-            <span>
-                Notificaciones
-            </span>
-
-            <div
-                class="switch activo"
-                onclick="this.classList.toggle('activo')">
+            <div class="informacion-datos">
+                <div class="dato">
+                    <span>ESTABLECIMIENTO</span>
+                    <strong>Liceo Antonio Varas de la Barra</strong>
+                </div>
+                <div class="dato">
+                    <span>DIRECCIÓN</span>
+                    <strong>Avenida Loa #2200<br>Arica, Chile</strong>
+                </div>
+                <div class="dato">
+                    <span>PLATAFORMA</span>
+                    <strong>LiceoMap</strong>
+                </div>
+                <div class="dato">
+                    <span>PROYECTO</span>
+                    <strong>Proyecto escolar 2026</strong>
+                </div>
             </div>
-
         </div>
+    </section>
 
+    <section class="frase-final reveal reveal-zoom">
+        <p class="etiqueta">LICEOMAP</p>
+        <h2>Explora.<br>Encuentra.<br><span class="texto-borde">Aprende.</span></h2>
+        <p>Una forma más simple de orientarte dentro de tu liceo.</p>
+    </section>
+</main>
 
-        <div class="panel-opcion">
-
-            <span>
-                Sonidos
-            </span>
-
-            <div
-                class="switch activo"
-                onclick="this.classList.toggle('activo')">
-            </div>
-
-        </div>
-
+<footer>
+    <div class="footer-logo">
+        <img src="image-removebg-preview.png" alt="Logo Liceo" class="logo-animado-footer">
+        <strong>LiceoMap</strong>
     </div>
-
-
-    <!-- =========================
-         PANEL NOTIFICACIONES
-    ========================== -->
-
-    <div id="notificaciones" class="panel">
-
-        <h3>
-            Notificaciones
-        </h3>
-
-
-        <div class="notificacion">
-            📢 Revisa los avisos del liceo.
-        </div>
-
-
-        <div class="notificacion">
-            📚 Recuerda revisar tu horario.
-        </div>
-
-
-        <div class="notificacion">
-            📝 Hay información nueva disponible.
-        </div>
-
+    <div class="footer-enlaces">
+        <a href="#inicio">Inicio</a>
+        <a href="#explorar">Explorar</a>
+        <a href="#mapa">Mapa del Liceo</a>
+        <a href="#informacion">Información</a>
     </div>
-
-
-    <!-- =========================
-         PANEL PERFIL
-    ========================== -->
-
-    <div id="perfil" class="panel">
-
-        <h3>
-            Mi perfil
-        </h3>
-
-
-        <div class="panel-opcion">
-
-            <span>
-                Usuario
-            </span>
-
-            <strong>
-                Invitado
-            </strong>
-
-        </div>
-
-
-        <div class="panel-opcion">
-
-            <span>
-                Curso
-            </span>
-
-            <strong>
-                Debes iniciar sesión
-            </strong>
-
-        </div>
-
-
-        <div class="panel-opcion">
-
-            <span>
-                Rol
-            </span>
-
-            <strong>
-                Debes iniciar sesión
-            </strong>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         CONTENIDO
-    ========================== -->
-
-    <main>
-
-        <section class="bienvenida">
-
-            <h1>
-                Bienvenido a OpenEduca
-            </h1>
-
-            <p>
-                Plataforma de información y orientación
-                para estudiantes del Liceo Antonio Varas de la Barra.
-            </p>
-
-        </section>
-
-
-        <!-- =========================
-             MENÚ PRINCIPAL
-        ========================== -->
-
-        <section class="menu">
-
-
-            <!-- SALAS -->
-
-            <button
-                class="menu-button"
-                onclick="location.href='salas.html'">
-
-                <div class="menu-icon">
-                    🚪
-                </div>
-
-                <h3>
-                    Salas
-                </h3>
-
-                <p>
-                    Busca una sala y conoce su ubicación.
-                </p>
-
-            </button>
-
-
-            <!-- HORARIOS -->
-
-            <button
-                class="menu-button"
-                onclick="location.href='horarios.html'">
-
-                <div class="menu-icon">
-                    🕒
-                </div>
-
-                <h3>
-                    Horarios
-                </h3>
-
-                <p>
-                    Busca y revisa los horarios de clases.
-                </p>
-
-            </button>
-
-
-            <!-- BIBLIOTECA -->
-
-            <button
-                class="menu-button"
-                onclick="location.href='biblioteca.html'">
-
-                <div class="menu-icon">
-                    📚
-                </div>
-
-                <h3>
-                    Biblioteca
-                </h3>
-
-                <p>
-                    Información y horarios.
-                </p>
-
-            </button>
-
-
-            <!-- CONTACTO -->
-
-            <button
-                class="menu-button"
-                onclick="mostrarContacto()">
-
-                <div class="menu-icon">
-                    ☎️
-                </div>
-
-                <h3>
-                    Contacto
-                </h3>
-
-                <p>
-                    Información del establecimiento.
-                </p>
-
-            </button>
-
-        </section>
-
-
-        <!-- =========================
-             MAPA + INFORMACIÓN
-        ========================== -->
-
-        <section class="contenedor">
-
-
-            <!-- =========================
-                 MAPA
-            ========================== -->
-
-            <div class="tarjeta">
-
-                <div class="mapa-superior">
-
-                    <h2>
-                        📍 Ubicación
-                    </h2>
-
-
-                    <a
-                        class="abrir-maps"
-
-                        href="https://www.google.com/maps/search/?api=1&query=Liceo+Antonio+Varas+de+la+Barra,+Avenida+Loa+2200,+Arica,+Chile"
-
-                        target="_blank">
-
-                        Abrir Maps ↗
-
-                    </a>
-
-                </div>
-
-
-                <div class="mapa">
-
-                    <iframe
-
-                        src="https://www.google.com/maps?q=Liceo+Antonio+Varas+de+la+Barra,+Avenida+Loa+2200,+Arica,+Chile&output=embed"
-
-                        loading="lazy"
-
-                        allowfullscreen
-
-                        referrerpolicy="no-referrer-when-downgrade">
-
-                    </iframe>
-
-                </div>
-
-            </div>
-
-
-            <!-- =========================
-                 INFORMACIÓN
-            ========================== -->
-
-            <div class="tarjeta">
-
-                <h2>
-                    Información
-                </h2>
-
-
-                <div class="dato">
-
-                    <strong>
-                        🏫 Establecimiento
-                    </strong>
-
-                    <span>
-                        Liceo Antonio Varas de la Barra
-                    </span>
-
-                </div>
-
-
-                <div class="dato">
-
-                    <strong>
-                        📍 Dirección
-                    </strong>
-
-                    <span>
-                        Avenida Loa #2200<br>
-                        Arica, Chile
-                    </span>
-
-                </div>
-
-
-                <div class="dato">
-
-                    <strong>
-                        🎓 Enseñanza
-                    </strong>
-
-                    <span>
-                        Educación Media Técnico Profesional
-                    </span>
-
-                </div>
-
-
-                <div class="dato">
-
-                    <strong>
-                        💻 OpenEduca
-                    </strong>
-
-                    <span>
-                        Plataforma digital para estudiantes.
-                    </span>
-
-                </div>
-
-
-                <div class="dato">
-
-                    <strong>
-                        🌐 Sitio del liceo
-                    </strong>
-
-                    <span>
-                        liceoavb.cl
-                    </span>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-
-    <footer>
-
-        OpenEduca · Proyecto escolar 2026
-
-    </footer>
-
-
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
-
-    <script>
-
-        /* =========================
-           ABRIR PANELES
-        ========================== */
-
-        function abrirPanel(id) {
-
-            const panel =
-                document.getElementById(id);
-
-            const abierto =
-                panel.classList.contains("mostrar");
-
-
-            // Cerrar todos los paneles
-
-            document
-                .querySelectorAll(".panel")
-                .forEach(function(p) {
-
-                    p.classList.remove("mostrar");
-
+    <div class="footer-derechos">LiceoMap · Proyecto escolar 2026</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+<script>
+/* =========================================================
+   LICEOMAP - JAVASCRIPT PRINCIPAL
+   El plano del liceo se dibuja con vectores de Leaflet.
+   NO se utiliza la imagen de referencia.
+========================================================= */
+
+let lenis = null;
+
+/* Lenis es opcional: si no carga, el resto de la página
+   y especialmente el mapa siguen funcionando. */
+if (typeof Lenis !== "undefined") {
+    lenis = new Lenis({
+        duration: 1.0,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+}
+
+/* =========================================================
+   SESIÓN
+========================================================= */
+function cargarEstadoSesion() {
+    const usuarioGuardado = localStorage.getItem("usuarioLiceo");
+    const btnNav = document.getElementById("btnPerfilNav");
+    const nombrePerfil = document.getElementById("nombreUsuarioPerfil");
+    const cursoPerfil = document.getElementById("cursoUsuarioPerfil");
+
+    if (!usuarioGuardado) return;
+
+    try {
+        const usuario = JSON.parse(usuarioGuardado);
+
+        if (btnNav) {
+            btnNav.innerText = usuario.nombre
+                ? usuario.nombre.split(" ")[0]
+                : "Perfil";
+
+            btnNav.href = "javascript:void(0)";
+            btnNav.onclick = () => abrirPanel("perfil");
+        }
+
+        if (nombrePerfil) {
+            nombrePerfil.innerText = usuario.nombre || "Estudiante";
+        }
+
+        if (cursoPerfil) {
+            cursoPerfil.innerText = usuario.curso || "Estudiante";
+        }
+    } catch (error) {
+        console.warn("No se pudo leer la sesión guardada.");
+    }
+}
+
+function cerrarSesion() {
+    localStorage.removeItem("usuarioLiceo");
+    window.location.reload();
+}
+
+/* =========================================================
+   INICIO
+========================================================= */
+document.addEventListener("DOMContentLoaded", function () {
+
+    cargarEstadoSesion();
+
+    /* =====================================================
+       LOADER
+    ===================================================== */
+    const loader = document.getElementById("pageLoader");
+    const elementoPorcentaje = document.getElementById("loaderPercent");
+
+    const DURACION_TOTAL = 1800;
+    let tiempoInicio = null;
+
+    function animarPantallaCarga(tiempoActual) {
+        if (!tiempoInicio) tiempoInicio = tiempoActual;
+
+        const transcurrido = tiempoActual - tiempoInicio;
+        const progreso = Math.min(transcurrido / DURACION_TOTAL, 1);
+
+        const suavizado = progreso < 0.5
+            ? 2 * progreso * progreso
+            : 1 - Math.pow(-2 * progreso + 2, 2) / 2;
+
+        if (elementoPorcentaje) {
+            elementoPorcentaje.innerText =
+                Math.floor(suavizado * 100)
+                    .toString()
+                    .padStart(2, "0");
+        }
+
+        if (progreso < 1) {
+            requestAnimationFrame(animarPantallaCarga);
+        } else {
+            setTimeout(() => {
+                if (loader) loader.classList.add("loader-oculto");
+                document.body.classList.add("page-ready");
+
+                document.querySelectorAll("#inicio .reveal")
+                    .forEach(el => el.classList.add("visible"));
+            }, 150);
+        }
+    }
+
+    requestAnimationFrame(animarPantallaCarga);
+
+    /* =====================================================
+       REVEAL
+    ===================================================== */
+    const elementosReveal = document.querySelectorAll(
+        "main section:not(#inicio) .reveal, .intro, .informacion-seccion"
+    );
+
+    if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.05,
+            rootMargin: "0px 0px 100px 0px"
+        });
+
+        elementosReveal.forEach(el => revealObserver.observe(el));
+    } else {
+        elementosReveal.forEach(el => el.classList.add("visible"));
+    }
+
+    /* =====================================================
+       NAVEGACIÓN
+    ===================================================== */
+    const secciones = document.querySelectorAll("section[id]");
+    const enlacesNav = document.querySelectorAll(".menu-principal a");
+
+    function actualizarNavegacion() {
+        const posicionScroll = window.scrollY + 140;
+
+        secciones.forEach(seccion => {
+            const top = seccion.offsetTop;
+            const height = seccion.offsetHeight;
+            const id = seccion.getAttribute("id");
+
+            if (posicionScroll >= top &&
+                posicionScroll < top + height) {
+
+                enlacesNav.forEach(enlace => {
+                    enlace.classList.toggle(
+                        "activo",
+                        enlace.getAttribute("href") === "#" + id
+                    );
                 });
-
-
-            // Abrir el seleccionado
-
-            if (!abierto) {
-
-                panel.classList.add("mostrar");
-
             }
+        });
+    }
 
+    window.addEventListener(
+        "scroll",
+        actualizarNavegacion,
+        { passive: true }
+    );
+
+    actualizarNavegacion();
+
+    /* =====================================================
+       MAPA INTERACTIVO DEL LICEO
+       -----------------------------------------------------
+       El mapa NO usa Pabellon F.png ni ninguna otra imagen.
+       Todo el plano se dibuja mediante polígonos, rectángulos,
+       líneas y etiquetas de Leaflet.
+    ===================================================== */
+    const elMapa = document.getElementById("map");
+
+    if (elMapa && typeof L !== "undefined") {
+
+        const ANCHO = 1000;
+        const ALTO = 1400;
+
+        /*
+         * Coordenadas de dibujo:
+         * X = izquierda → derecha
+         * Y = arriba → abajo
+         *
+         * Leaflet utiliza [latitud, longitud], por eso
+         * convertimos Y para que el plano se comporte como
+         * una hoja de papel.
+         */
+        function punto(x, y) {
+            return [ALTO - y, x];
         }
 
-
-        /* =========================
-           MODO OSCURO
-        ========================== */
-
-        function modoOscuro() {
-
-            document.body
-                .classList.toggle("oscuro");
-
-
-            document
-                .getElementById("switchOscuro")
-                .classList.toggle("activo");
-
+        function puntos(lista) {
+            return lista.map(([x, y]) => punto(x, y));
         }
 
+        function rect(x1, y1, x2, y2) {
+            return [
+                [x1, y1],
+                [x2, y1],
+                [x2, y2],
+                [x1, y2]
+            ];
+        }
 
-        /* =========================
-           CONTACTO
-        ========================== */
+        const limites = [
+            punto(20, 20),
+            punto(960, 1360)
+        ];
 
-        function mostrarContacto() {
+        const mapa = L.map("map", {
+            crs: L.CRS.Simple,
+            minZoom: -1.5,
+            maxZoom: 2.5,
+            zoomSnap: 0.25,
+            zoomDelta: 0.25,
+            scrollWheelZoom: true,
+            zoomControl: true,
+            attributionControl: false,
+            maxBounds: [
+                punto(-80, -80),
+                punto(1080, 1480)
+            ],
+            maxBoundsViscosity: 0.85
+        });
 
-            alert(
+        const colores = {
+            pared: "#26383a",
+            fondo: "#f4f1e8",
+            patio: "#e7e4d9",
+            sala: "#dce9e3",
+            deporte: "#d8e3d8",
+            admin: "#e8ddd0",
+            parking: "#deddd6"
+        };
 
-                "CONTACTO\n\n" +
+        /* -------------------------------------------------
+           CONTORNO GENERAL
+        ------------------------------------------------- */
+        L.polygon(puntos([
+            [55, 55],
+            [920, 55],
+            [920, 700],
+            [720, 700],
+            [720, 1325],
+            [270, 1325],
+            [270, 1225],
+            [120, 1225],
+            [120, 1350],
+            [55, 1350]
+        ]), {
+            color: colores.pared,
+            weight: 7,
+            fillColor: colores.fondo,
+            fillOpacity: 1,
+            interactive: false
+        }).addTo(mapa);
 
-                "Liceo Antonio Varas de la Barra\n\n" +
+        /* Patio abierto */
+        L.polygon(
+            puntos(rect(250, 780, 720, 1110)),
+            {
+                color: "#b8b4a8",
+                weight: 2,
+                dashArray: "7 7",
+                fillColor: colores.patio,
+                fillOpacity: 0.75,
+                interactive: false
+            }
+        ).addTo(mapa);
 
-                "Av. Loa #2200\n" +
+        const elementosMapa = {};
 
-                "Arica, Chile"
+        /* -------------------------------------------------
+           CREAR ZONA INTERACTIVA
+        ------------------------------------------------- */
+        function crearZona(
+            id,
+            nombre,
+            descripcion,
+            coordenadas,
+            color,
+            opciones = {}
+        ) {
+            const opacidad =
+                opciones.opacity !== undefined
+                    ? opciones.opacity
+                    : 0.35;
 
+            const peso =
+                opciones.weight || 3;
+
+            const estilo = {
+                color: opciones.borde || color,
+                weight: peso,
+                fillColor: color,
+                fillOpacity: opacidad,
+                lineJoin: "round"
+            };
+
+            const capa = L.polygon(
+                puntos(coordenadas),
+                estilo
+            ).addTo(mapa);
+
+            capa.bindPopup(`
+                <div class="popup-mapa">
+                    <span class="popup-etiqueta">LICEOMAP</span>
+                    <strong>${nombre}</strong>
+                    <p>${descripcion}</p>
+                </div>
+            `);
+
+            capa.on("mouseover", function () {
+                this.setStyle({
+                    fillOpacity: Math.min(opacidad + 0.20, 0.75),
+                    weight: peso + 1
+                });
+            });
+
+            capa.on("mouseout", function () {
+                this.setStyle(estilo);
+            });
+
+            capa.on("click", function () {
+                this.openPopup();
+            });
+
+            elementosMapa[id] = capa;
+
+            return capa;
+        }
+
+        /* -------------------------------------------------
+           ETIQUETAS
+        ------------------------------------------------- */
+        function crearEtiqueta(texto, x, y, clase = "") {
+            return L.marker(
+                punto(x, y),
+                {
+                    interactive: false,
+                    keyboard: false,
+                    icon: L.divIcon({
+                        className: "etiqueta-mapa " + clase,
+                        html: `<span>${texto}</span>`,
+                        iconSize: null,
+                        iconAnchor: [0, 0]
+                    })
+                }
+            ).addTo(mapa);
+        }
+
+        function crearPunto(
+            id,
+            nombre,
+            descripcion,
+            x,
+            y
+        ) {
+            const marker = L.circleMarker(
+                punto(x, y),
+                {
+                    radius: 7,
+                    color: "#234b4d",
+                    weight: 3,
+                    fillColor: "#ffffff",
+                    fillOpacity: 1
+                }
+            ).addTo(mapa);
+
+            marker.bindPopup(`
+                <div class="popup-mapa">
+                    <span class="popup-etiqueta">ESPACIO</span>
+                    <strong>${nombre}</strong>
+                    <p>${descripcion}</p>
+                </div>
+            `);
+
+            elementosMapa[id] = marker;
+
+            return marker;
+        }
+
+        /* =================================================
+           PABELLÓN F
+        ================================================= */
+        crearZona(
+            "pabellon-f",
+            "Pabellón F",
+            "Pabellón ubicado en la parte superior del establecimiento.",
+            [
+                [60, 70],
+                [505, 70],
+                [505, 125],
+                [60, 125]
+            ],
+            "#c8d9d1",
+            { opacity: 0.55 }
+        );
+
+        crearZona(
+            "pabellon-f-2",
+            "Pabellón F",
+            "Sector superior del Pabellón F.",
+            [
+                [680, 70],
+                [910, 70],
+                [910, 125],
+                [680, 125]
+            ],
+            "#c8d9d1",
+            { opacity: 0.55 }
+        );
+
+        crearEtiqueta(
+            "Pabellón F",
+            285,
+            86,
+            "etiqueta-grande"
+        );
+
+        /* =================================================
+           ELECTRÓNICA
+        ================================================= */
+        crearZona(
+            "electronica",
+            "Electrónica",
+            "Espacio destinado a clases y actividades de electrónica.",
+            [
+                [120, 200],
+                [180, 200],
+                [180, 520],
+                [120, 520]
+            ],
+            "#d5e2dc",
+            { opacity: 0.55 }
+        );
+
+        crearEtiqueta(
+            "Electrónica",
+            132,
+            265,
+            "etiqueta-vertical"
+        );
+
+        /* =================================================
+           GIMNASIO
+        ================================================= */
+        crearZona(
+            "gimnasio",
+            "Gimnasio",
+            "Espacio deportivo principal del establecimiento.",
+            [
+                [180, 235],
+                [460, 235],
+                [460, 520],
+                [225, 520],
+                [225, 445],
+                [180, 445]
+            ],
+            "#c9ddd1",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta(
+            "Gimnasio",
+            225,
+            330,
+            "etiqueta-grande"
+        );
+
+        /* =================================================
+           COMPUTACIÓN
+        ================================================= */
+        crearZona(
+            "computacion",
+            "Computación",
+            "Sala destinada a clases y actividades de computación.",
+            [
+                [525, 150],
+                [650, 150],
+                [650, 300],
+                [525, 300]
+            ],
+            "#d3dce7",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta(
+            "Computación",
+            555,
+            195,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           CIENCIAS
+        ================================================= */
+        crearZona(
+            "ciencias",
+            "Ciencias",
+            "Espacio destinado a clases de Ciencias.",
+            [
+                [710, 210],
+                [865, 210],
+                [865, 275],
+                [710, 275]
+            ],
+            "#e4d9d0",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta(
+            "Ciencias",
+            745,
+            228,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           CANCHA TECHADA
+        ================================================= */
+        crearZona(
+            "cancha-techada",
+            "Cancha techada",
+            "Espacio deportivo cubierto.",
+            [
+                [735, 330],
+                [870, 330],
+                [870, 610],
+                [735, 610]
+            ],
+            "#d5dfd3",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta(
+            "Cancha techada",
+            770,
+            420,
+            "etiqueta-vertical"
+        );
+
+        /* =================================================
+           INGLÉS / HISTORIA
+        ================================================= */
+        crearZona(
+            "ingles",
+            "Inglés",
+            "Sala destinada a clases de Inglés.",
+            [
+                [525, 430],
+                [660, 430],
+                [660, 495],
+                [525, 495]
+            ],
+            "#e1ddd0",
+            { opacity: 0.58 }
+        );
+
+        crearZona(
+            "historia",
+            "Historia",
+            "Sala destinada a clases de Historia.",
+            [
+                [525, 495],
+                [660, 495],
+                [660, 560],
+                [525, 560]
+            ],
+            "#e1ddd0",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta("Inglés", 570, 448, "etiqueta-mediana");
+        crearEtiqueta("Historia", 555, 512, "etiqueta-mediana");
+
+        /* =================================================
+           MATEMÁTICA / UTP
+        ================================================= */
+        crearZona(
+            "matematica-utp",
+            "Matemática y UTP",
+            "Espacio destinado a Matemática y UTP.",
+            [
+                [120, 650],
+                [280, 650],
+                [280, 770],
+                [120, 770]
+            ],
+            "#e1d9df",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta(
+            "Matemática",
+            140,
+            675,
+            "etiqueta-mediana"
+        );
+
+        crearEtiqueta(
+            "y UTP",
+            190,
+            715,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           LENGUAJE 1
+        ================================================= */
+        crearZona(
+            "lenguaje1",
+            "Lenguaje 1",
+            "Sala destinada a clases de Lenguaje.",
+            [
+                [280, 650],
+                [460, 650],
+                [460, 770],
+                [280, 770]
+            ],
+            "#d8e1e2",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta(
+            "Lenguaje 1",
+            320,
+            690,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           DIRECCIÓN
+        ================================================= */
+        crearZona(
+            "direccion",
+            "Dirección",
+            "Área administrativa y de dirección.",
+            [
+                [60, 820],
+                [180, 820],
+                [180, 1230],
+                [60, 1230]
+            ],
+            "#e5d9ce",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta(
+            "Dirección",
+            88,
+            970,
+            "etiqueta-vertical"
+        );
+
+        /* =================================================
+           RECEPCIÓN
+        ================================================= */
+        crearZona(
+            "recepcion",
+            "Recepción",
+            "Punto de atención y acceso.",
+            [
+                [60, 1230],
+                [180, 1230],
+                [180, 1350],
+                [60, 1350]
+            ],
+            "#e5d9ce",
+            { opacity: 0.58 }
+        );
+
+        crearEtiqueta(
+            "Recepción",
+            80,
+            1270,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           CANCHA CENTRAL
+        ================================================= */
+        crearZona(
+            "cancha-central",
+            "Cancha central",
+            "Cancha ubicada en el patio central.",
+            [
+                [285, 835],
+                [485, 835],
+                [485, 1055],
+                [285, 1055]
+            ],
+            "#d2ddd4",
+            { opacity: 0.68 }
+        );
+
+        L.polyline(
+            puntos([
+                [385, 835],
+                [385, 1055]
+            ]),
+            {
+                color: "#7d857d",
+                weight: 2,
+                interactive: false
+            }
+        ).addTo(mapa);
+
+        L.polyline(
+            puntos([
+                [285, 945],
+                [485, 945]
+            ]),
+            {
+                color: "#7d857d",
+                weight: 2,
+                interactive: false
+            }
+        ).addTo(mapa);
+
+        crearEtiqueta(
+            "Cancha",
+            350,
+            925,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           MULTI CANCHA
+        ================================================= */
+        crearZona(
+            "multi-cancha",
+            "Multi Cancha",
+            "Espacio deportivo multifuncional.",
+            [
+                [540, 835],
+                [690, 835],
+                [690, 1080],
+                [540, 1080]
+            ],
+            "#d2ddd4",
+            { opacity: 0.68 }
+        );
+
+        crearEtiqueta(
+            "Multi Cancha",
+            565,
+            930,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           BIBLIOTECA
+        ================================================= */
+        crearZona(
+            "biblioteca",
+            "Lenguaje 2 / Biblioteca",
+            "Espacio de lectura y estudio.",
+            [
+                [270, 1135],
+                [390, 1135],
+                [390, 1215],
+                [270, 1215]
+            ],
+            "#d6e0df",
+            { opacity: 0.62 }
+        );
+
+        crearEtiqueta(
+            "Biblioteca",
+            292,
+            1160,
+            "etiqueta-pequena"
+        );
+
+        /* =================================================
+           SALA DE EVENTOS
+        ================================================= */
+        crearZona(
+            "sala-eventos",
+            "Sala de eventos",
+            "Espacio destinado a actividades y eventos.",
+            [
+                [270, 1215],
+                [390, 1215],
+                [390, 1290],
+                [270, 1290]
+            ],
+            "#e5ddd0",
+            { opacity: 0.62 }
+        );
+
+        crearEtiqueta(
+            "Sala de eventos",
+            280,
+            1238,
+            "etiqueta-pequena"
+        );
+
+        /* =================================================
+           COMEDOR
+        ================================================= */
+        crearZona(
+            "comedor",
+            "Comedor",
+            "Espacio de alimentación y convivencia.",
+            [
+                [390, 1085],
+                [520, 1085],
+                [520, 1260],
+                [390, 1260]
+            ],
+            "#e5dccb",
+            { opacity: 0.62 }
+        );
+
+        crearEtiqueta(
+            "Comedor",
+            420,
+            1160,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           GASTRONOMÍA
+        ================================================= */
+        crearZona(
+            "gastronomia",
+            "Gastronomía",
+            "Espacio destinado a actividades de Gastronomía.",
+            [
+                [520, 1135],
+                [635, 1135],
+                [635, 1215],
+                [520, 1215]
+            ],
+            "#e5d8c8",
+            { opacity: 0.62 }
+        );
+
+        crearEtiqueta(
+            "Gastronomía",
+            535,
+            1160,
+            "etiqueta-pequena"
+        );
+
+        /* =================================================
+           SALA DE EVENTOS INFERIOR
+        ================================================= */
+        crearZona(
+            "sala-eventos-2",
+            "Sala de eventos",
+            "Espacio para actividades del establecimiento.",
+            [
+                [520, 1215],
+                [635, 1215],
+                [635, 1290],
+                [520, 1290]
+            ],
+            "#e5ddd0",
+            { opacity: 0.62 }
+        );
+
+        crearEtiqueta(
+            "Sala eventos",
+            535,
+            1238,
+            "etiqueta-pequena"
+        );
+
+        /* =================================================
+           ESTACIONAMIENTO
+        ================================================= */
+        crearZona(
+            "estacionamiento",
+            "Estacionamiento",
+            "Área destinada al estacionamiento.",
+            [
+                [270, 1290],
+                [720, 1290],
+                [720, 1340],
+                [270, 1340]
+            ],
+            "#d9d8d0",
+            { opacity: 0.72 }
+        );
+
+        crearEtiqueta(
+            "Estacionamiento",
+            430,
+            1302,
+            "etiqueta-mediana"
+        );
+
+        /* =================================================
+           PUNTOS DE REFERENCIA
+        ================================================= */
+        crearPunto(
+            "entrada",
+            "Entrada principal",
+            "Acceso principal al establecimiento.",
+            85,
+            740
+        );
+
+        crearPunto(
+            "patio",
+            "Patio central",
+            "Zona abierta de circulación.",
+            500,
+            760
+        );
+
+        /* =================================================
+           TÍTULOS
+        ================================================= */
+        crearEtiqueta(
+            "PLANO DEL LICEO",
+            395,
+            32,
+            "etiqueta-plano"
+        );
+
+        crearEtiqueta(
+            "NORTE ↑",
+            820,
+            110,
+            "etiqueta-pequena"
+        );
+
+        /* =================================================
+           BUSCADOR DEL MAPA
+        ================================================= */
+        const buscadorMapa = L.control({
+            position: "topright"
+        });
+
+        buscadorMapa.onAdd = function () {
+
+            const div = L.DomUtil.create(
+                "div",
+                "control-busqueda-mapa"
             );
 
+            div.innerHTML = `
+                <input
+                    type="text"
+                    id="buscarZonaMapa"
+                    placeholder="Buscar zona..."
+                    autocomplete="off"
+                >
+                <button
+                    type="button"
+                    id="botonBuscarZonaMapa"
+                    title="Buscar"
+                >⌕</button>
+            `;
+
+            L.DomEvent.disableClickPropagation(div);
+            L.DomEvent.disableScrollPropagation(div);
+
+            return div;
+        };
+
+        buscadorMapa.addTo(mapa);
+
+        function normalizar(texto) {
+            return texto
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .trim();
         }
 
-    </script>
+        function buscarZonaEnMapa() {
 
+            const input =
+                document.getElementById("buscarZonaMapa");
 
+            if (!input) return;
+
+            const termino =
+                normalizar(input.value);
+
+            const coincidencias = {
+                "gimnasio": "gimnasio",
+                "electronica": "electronica",
+                "computacion": "computacion",
+                "ciencias": "ciencias",
+                "cancha techada": "cancha-techada",
+                "ingles": "ingles",
+                "historia": "historia",
+                "matematica": "matematica-utp",
+                "matematica y utp": "matematica-utp",
+                "utp": "matematica-utp",
+                "lenguaje 1": "lenguaje1",
+                "lenguaje1": "lenguaje1",
+                "direccion": "direccion",
+                "recepcion": "recepcion",
+                "multi cancha": "multi-cancha",
+                "multicancha": "multi-cancha",
+                "biblioteca": "biblioteca",
+                "comedor": "comedor",
+                "sala de eventos": "sala-eventos",
+                "gastronomia": "gastronomia",
+                "estacionamiento": "estacionamiento",
+                "pabellon f": "pabellon-f",
+                "pabellon": "pabellon-f",
+                "cancha": "cancha-central"
+            };
+
+            let id = coincidencias[termino];
+
+            if (!id) {
+                const encontrado =
+                    Object.keys(coincidencias)
+                        .find(nombre =>
+                            nombre.includes(termino)
+                        );
+
+                if (encontrado) {
+                    id = coincidencias[encontrado];
+                }
+            }
+
+            const capa =
+                id ? elementosMapa[id] : null;
+
+            if (!capa) {
+
+                input.classList.add(
+                    "busqueda-error"
+                );
+
+                setTimeout(() => {
+                    input.classList.remove(
+                        "busqueda-error"
+                    );
+                }, 500);
+
+                return;
+            }
+
+            const centro =
+                typeof capa.getBounds === "function"
+                    ? capa.getBounds().getCenter()
+                    : capa.getLatLng();
+
+            mapa.flyTo(centro, 0.4, {
+                duration: 0.9
+            });
+
+            setTimeout(() => {
+                capa.openPopup();
+            }, 750);
+        }
+
+        document
+            .getElementById("botonBuscarZonaMapa")
+            .addEventListener(
+                "click",
+                buscarZonaEnMapa
+            );
+
+        document
+            .getElementById("buscarZonaMapa")
+            .addEventListener(
+                "keydown",
+                function (e) {
+                    if (e.key === "Enter") {
+                        buscarZonaEnMapa();
+                    }
+                }
+            );
+
+        /* Vista inicial */
+        mapa.fitBounds(limites, {
+            padding: [25, 25]
+        });
+
+        setTimeout(() => {
+            mapa.invalidateSize();
+            mapa.fitBounds(limites, {
+                padding: [25, 25]
+            });
+        }, 500);
+
+        window.addEventListener("resize", () => {
+            mapa.invalidateSize();
+        });
+    }
+
+    /* =====================================================
+       BUSCADOR PRINCIPAL
+    ===================================================== */
+    const inputBusqueda =
+        document.getElementById("busquedaSala");
+
+    if (inputBusqueda) {
+        inputBusqueda.addEventListener(
+            "keydown",
+            function (e) {
+                if (e.key === "Enter") {
+                    buscarSalaInicio();
+                }
+            }
+        );
+    }
+});
+
+/* =========================================================
+   ENLACES INTERNOS
+========================================================= */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+    anchor.addEventListener("click", function (e) {
+
+        const id = this.getAttribute("href");
+
+        if (!id || id === "#") return;
+
+        const target =
+            document.querySelector(id);
+
+        if (!target) return;
+
+        e.preventDefault();
+
+        if (lenis) {
+            lenis.scrollTo(target, {
+                offset: -75
+            });
+        } else {
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    });
+});
+
+/* =========================================================
+   PANELES
+========================================================= */
+function abrirPanel(id) {
+
+    const panel =
+        document.getElementById(id);
+
+    if (!panel) return;
+
+    const estabaAbierto =
+        panel.classList.contains("mostrar");
+
+    document
+        .querySelectorAll(".panel")
+        .forEach(p =>
+            p.classList.remove("mostrar")
+        );
+
+    if (!estabaAbierto) {
+        panel.classList.add("mostrar");
+    }
+}
+
+function cerrarPanel(id) {
+
+    const panel =
+        document.getElementById(id);
+
+    if (panel) {
+        panel.classList.remove("mostrar");
+    }
+}
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            !event.target.closest(".panel") &&
+            !event.target.closest(".header-button") &&
+            !event.target.closest("#btnPerfilNav")
+        ) {
+            document
+                .querySelectorAll(".panel")
+                .forEach(p =>
+                    p.classList.remove("mostrar")
+                );
+        }
+    }
+);
+
+/* =========================================================
+   MODO OSCURO
+========================================================= */
+function modoOscuro() {
+
+    document.body.classList.toggle("oscuro");
+
+    const esOscuro =
+        document.body.classList.contains("oscuro");
+
+    localStorage.setItem(
+        "modoOscuro",
+        esOscuro
+    );
+
+    const sw =
+        document.getElementById("switchOscuro");
+
+    if (sw) {
+        sw.classList.toggle(
+            "activo",
+            esOscuro
+        );
+    }
+}
+
+if (
+    localStorage.getItem("modoOscuro") === "true"
+) {
+    document.body.classList.add("oscuro");
+}
+
+/* =========================================================
+   BUSCADOR PRINCIPAL
+========================================================= */
+function buscarSalaInicio() {
+
+    const input =
+        document.getElementById("busquedaSala");
+
+    if (!input) return;
+
+    const valor =
+        input.value.trim();
+
+    if (!valor) {
+
+        input.classList.add(
+            "busqueda-error"
+        );
+
+        setTimeout(() => {
+            input.classList.remove(
+                "busqueda-error"
+            );
+        }, 500);
+
+        return;
+    }
+
+    window.location.href =
+        "salas.html?sala=" +
+        encodeURIComponent(valor);
+}
+</script>
 </body>
-
 </html>

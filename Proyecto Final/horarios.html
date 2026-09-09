@@ -1,322 +1,189 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Horarios - OpenEduca</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horarios de Clases - LiceoMap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
 </head>
-
-
 <body>
 
-
 <header>
-
-    <div class="logo">
-
-        <div class="logo-icon">
-            🎓
-        </div>
-
-        <h2>
-            OpenEduca
-        </h2>
-
-    </div>
-
-</header>
-
-
-<main class="pagina-horarios">
-
-
-    <section class="bienvenida">
-
-        <h1>
-            🕒 Horarios
-        </h1>
-
-        <p>
-            Busca el horario correspondiente a tu curso.
-        </p>
-
-    </section>
-
-
-    <!-- BUSCADOR -->
-
-    <section class="buscador-horarios">
-
-        <h2>
-            🔍 Buscar horario
-        </h2>
-
-
-        <div class="formulario-horario">
-
-
-            <div>
-
-                <label for="curso">
-                    Curso
-                </label>
-
-                <select id="curso">
-
-                    <option value="">
-                        Selecciona tu curso
-                    </option>
-
-                    <option value="1medio">
-                        1° Medio
-                    </option>
-
-                    <option value="2medio">
-                        2° Medio
-                    </option>
-
-                    <option value="3medio">
-                        3° Medio
-                    </option>
-
-                    <option value="4medio">
-                        4° Medio
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div>
-
-                <label for="dia">
-                    Día
-                </label>
-
-                <select id="dia">
-
-                    <option value="">
-                        Todos los días
-                    </option>
-
-                    <option value="lunes">
-                        Lunes
-                    </option>
-
-                    <option value="martes">
-                        Martes
-                    </option>
-
-                    <option value="miercoles">
-                        Miércoles
-                    </option>
-
-                    <option value="jueves">
-                        Jueves
-                    </option>
-
-                    <option value="viernes">
-                        Viernes
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <button
-                class="buscar-horario-button"
-                onclick="buscarHorario()">
-
-                Buscar horario
-
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- RESULTADO -->
-
-    <section
-        id="resultadoHorario"
-        class="resultado-horario">
-
-        <h2>
-            📅 Horario
-        </h2>
-
-        <p class="horario-ayuda">
-            Selecciona un curso y presiona
-            "Buscar horario".
-        </p>
-
-    </section>
-
-
-    <a
-        href="proyecto.html"
-        class="regresar">
-
-        ← Regresar al menú principal
-
+    <a href="proyecto.html" class="logo" style="text-decoration: none; color: inherit;">
+        <div class="logo-icon">🎓</div>
+        <h2>LiceoMap</h2>
     </a>
 
+    <nav class="menu-principal">
+        <a href="proyecto.html#inicio">Inicio</a>
+        <a href="proyecto.html#explorar">Explorar</a>
+        <a href="salas.html">Salas</a>
+        <a href="horarios.html" class="activo">Horarios</a>
+        <a href="biblioteca.html">Biblioteca</a>
+    </nav>
 
+    <div class="header-buttons">
+        <a href="proyecto.html" class="login-header-button" style="background: rgba(255,255,255,0.15);">← Inicio</a>
+        <a href="login.html" id="btnPerfilNav" class="login-header-button">Iniciar sesión</a>
+    </div>
+</header>
+
+<main class="biblioteca-era-container">
+    <a href="proyecto.html" class="login-back scroll-reveal fade-up">← Volver al menú principal</a>
+
+    <!-- HERO EDITORIAL -->
+    <section class="era-hero scroll-reveal zoom-in">
+        <div class="era-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1600&q=80');"></div>
+        <div class="era-hero-overlay"></div>
+        <div class="era-hero-content">
+            <span class="era-badge">GESTIÓN DE TIEMPO & ESPACIO</span>
+            <h1 class="era-title">CRONOGRAMA<br><span>ACADÉMICO</span></h1>
+            <p class="era-subtitle">Haz clic en la ubicación de cualquier asignatura para enfocarla directamente dentro del mapa interactivo del liceo.</p>
+        </div>
+    </section>
+
+    <!-- SELECTOR DE CURSO -->
+    <section class="era-card scroll-reveal slide-up" style="padding: 25px; margin-bottom: 30px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div>
+                <h2 class="era-section-heading" style="margin: 0; font-size: 20px;">📅 Selecciona tu Nivel o Curso</h2>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Elige para actualizar la tabla de horarios correspondiente.</p>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-filtro activo">1° Medio A</button>
+                <button class="btn-filtro">2° Medio B</button>
+                <button class="btn-filtro">3° Medio A</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TABLA DE HORARIOS LINKED TO MAP -->
+    <section class="era-card scroll-reveal zoom-in delay-1" style="padding: 30px; margin-bottom: 50px; overflow-x: auto;">
+        <h2 class="era-section-heading" style="margin-bottom: 20px;">Jornada Semanal · 1° Medio A</h2>
+        
+        <table class="tabla-horarios-era">
+            <thead>
+                <tr>
+                    <th>Bloque / Hora</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>08:00 - 09:30</strong></td>
+                    <td>
+                        <span class="materia len">Matemáticas</span><br>
+                        <a href="salas.html?sala=Sala 101" class="ubicacion-mapa-link">📍 Sala 101</a>
+                    </td>
+                    <td>
+                        <span class="materia len">Lenguaje</span><br>
+                        <a href="salas.html?sala=Sala 101" class="ubicacion-mapa-link">📍 Sala 101</a>
+                    </td>
+                    <td>
+                        <span class="materia cien">Física</span><br>
+                        <a href="salas.html?sala=Lab. de Química" class="ubicacion-mapa-link">📍 Lab. Química</a>
+                    </td>
+                    <td>
+                        <span class="materia len">Matemáticas</span><br>
+                        <a href="salas.html?sala=Sala 101" class="ubicacion-mapa-link">📍 Sala 101</a>
+                    </td>
+                    <td>
+                        <span class="materia his">Historia</span><br>
+                        <a href="salas.html?sala=Sala 201" class="ubicacion-mapa-link">📍 Sala 201</a>
+                    </td>
+                </tr>
+                <tr class="recreo-row">
+                    <td><strong>09:30 - 09:45</strong></td>
+                    <td colspan="5" style="text-align: center; font-weight: 700; letter-spacing: 2px;">☕ RECREO MORNING BREAK</td>
+                </tr>
+                <tr>
+                    <td><strong>09:45 - 11:15</strong></td>
+                    <td>
+                        <span class="materia his">Historia</span><br>
+                        <a href="salas.html?sala=Sala 201" class="ubicacion-mapa-link">📍 Sala 201</a>
+                    </td>
+                    <td>
+                        <span class="materia cien">Química</span><br>
+                        <a href="salas.html?sala=Lab. de Química" class="ubicacion-mapa-link">📍 Lab. Química</a>
+                    </td>
+                    <td>
+                        <span class="materia len">Inglés</span><br>
+                        <a href="salas.html?sala=Sala 101" class="ubicacion-mapa-link">📍 Sala 101</a>
+                    </td>
+                    <td>
+                        <span class="materia len">Lenguaje</span><br>
+                        <a href="salas.html?sala=Sala 101" class="ubicacion-mapa-link">📍 Sala 101</a>
+                    </td>
+                    <td>
+                        <span class="materia cien">Biología</span><br>
+                        <a href="salas.html?sala=Lab. de Química" class="ubicacion-mapa-link">📍 Lab. Química</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>11:30 - 13:00</strong></td>
+                    <td>
+                        <span class="materia especial">Tecnología</span><br>
+                        <a href="salas.html?sala=Lab. Computación" class="ubicacion-mapa-link">📍 Lab. Comp.</a>
+                    </td>
+                    <td>
+                        <span class="materia especial">Artes Visuales</span><br>
+                        <a href="salas.html?sala=Sala 102" class="ubicacion-mapa-link">📍 Sala 102</a>
+                    </td>
+                    <td>
+                        <span class="materia len">Matemáticas</span><br>
+                        <a href="salas.html?sala=Sala 101" class="ubicacion-mapa-link">📍 Sala 101</a>
+                    </td>
+                    <td>
+                        <span class="materia especial">Ed. Física</span><br>
+                        <a href="salas.html?sala=Sala 102" class="ubicacion-mapa-link">📍 Sala 102</a>
+                    </td>
+                    <td>
+                        <span class="materia len">Consejo Curso</span><br>
+                        <a href="salas.html?sala=Sala 101" class="ubicacion-mapa-link">📍 Sala 101</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="era-footer-btn scroll-reveal fade-up">
+        <a href="proyecto.html" class="btn-era-primary">← Regresar al menú principal</a>
+    </div>
 </main>
 
+<footer style="text-align: center; padding: 40px; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 13px; font-family: 'Syne', sans-serif; letter-spacing: 2px;">
+    LICEOMAP ARCHITECTURE · 2026
+</footer>
 
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 <script>
+const lenis = new Lenis({ duration: 1.2, smoothWheel: true, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
 
-function buscarHorario() {
-
-    const curso =
-        document
-        .getElementById("curso")
-        .value;
-
-
-    const dia =
-        document
-        .getElementById("dia")
-        .value;
-
-
-    const resultado =
-        document
-        .getElementById("resultadoHorario");
-
-
-    if (curso === "") {
-
-        resultado.innerHTML = `
-
-            <h2>
-                📅 Horario
-            </h2>
-
-            <p class="horario-error">
-                Selecciona un curso para buscar
-                su horario.
-            </p>
-
-        `;
-
-        return;
-
+document.addEventListener("DOMContentLoaded", function() {
+    const usuarioGuardado = localStorage.getItem("usuarioLiceo");
+    if (usuarioGuardado && document.getElementById("btnPerfilNav")) {
+        const usuario = JSON.parse(usuarioGuardado);
+        document.getElementById("btnPerfilNav").innerText = usuario.nombre.split(" ")[0];
     }
+});
 
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+    });
+}, { threshold: 0.15 });
 
-    let nombreCurso = "";
-
-
-    if (curso === "1medio") {
-        nombreCurso = "1° Medio";
-    }
-
-    if (curso === "2medio") {
-        nombreCurso = "2° Medio";
-    }
-
-    if (curso === "3medio") {
-        nombreCurso = "3° Medio";
-    }
-
-    if (curso === "4medio") {
-        nombreCurso = "4° Medio";
-    }
-
-
-    resultado.innerHTML = `
-
-        <h2>
-            📅 ${nombreCurso}
-        </h2>
-
-        <div class="horario-item">
-
-            <strong>
-                08:00 - 09:30
-            </strong>
-
-            <span>
-                Matemática
-            </span>
-
-            <small>
-                🚪 Sala 101
-            </small>
-
-        </div>
-
-
-        <div class="horario-item">
-
-            <strong>
-                09:45 - 11:15
-            </strong>
-
-            <span>
-                Lenguaje
-            </span>
-
-            <small>
-                🚪 Sala 102
-            </small>
-
-        </div>
-
-
-        <div class="horario-item">
-
-            <strong>
-                11:30 - 13:00
-            </strong>
-
-            <span>
-                Programación
-            </span>
-
-            <small>
-                💻 Laboratorio
-            </small>
-
-        </div>
-
-
-        <div class="horario-item">
-
-            <strong>
-                14:00 - 15:30
-            </strong>
-
-            <span>
-                Inglés
-            </span>
-
-            <small>
-                🚪 Sala 203
-            </small>
-
-        </div>
-
-    `;
-
-}
-
+document.querySelectorAll(".scroll-reveal").forEach(el => observer.observe(el));
 </script>
-
-
 </body>
-
 </html>

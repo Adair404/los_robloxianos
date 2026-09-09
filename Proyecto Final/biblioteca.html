@@ -1,293 +1,222 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Biblioteca - OpenEduca</title>
-
+    <title>Biblioteca - LiceoMap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
 </head>
-
-
 <body>
 
-    <!-- =========================
-         CABECERA
-    ========================== -->
+<header>
+    <a href="proyecto.html" class="logo" style="text-decoration: none; color: inherit;">
+        <div class="logo-icon">🎓</div>
+        <h2>LiceoMap</h2>
+    </a>
 
-    <header>
+    <nav class="menu-principal">
+        <a href="proyecto.html#inicio">Inicio</a>
+        <a href="proyecto.html#explorar">Explorar</a>
+        <a href="salas.html">Salas</a>
+        <a href="horarios.html">Horarios</a>
+        <a href="biblioteca.html" class="activo">Biblioteca</a>
+    </nav>
 
-        <div class="logo">
+    <div class="header-buttons">
+        <a href="proyecto.html" class="login-header-button" style="background: rgba(255,255,255,0.15);">← Inicio</a>
+        <a href="login.html" id="btnPerfilNav" class="login-header-button">Iniciar sesión</a>
+    </div>
+</header>
 
-            <div class="logo-icon">
-                🎓
+<main class="biblioteca-era-container">
+    <a href="proyecto.html" class="login-back scroll-reveal fade-up">← Volver al menú principal</a>
+
+    <!-- HERO EDITORIAL CON IMAGEN Y MASK -->
+    <section class="era-hero scroll-reveal zoom-in">
+        <div class="era-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=80');"></div>
+        <div class="era-hero-overlay"></div>
+        <div class="era-hero-content">
+            <span class="era-badge">ESPACIO DE APRENDIZAJE & RECREACIÓN</span>
+            <h1 class="era-title">BIBLIOTECA<br><span>CENITAL</span></h1>
+            <p class="era-subtitle">Un entorno diseñado para el estudio enfocado, la lectura inmersiva y el descanso durante tus recreos.</p>
+        </div>
+    </section>
+
+    <!-- GRID SOBRE LA BIBLIOTECA & HORARIOS -->
+    <section class="era-grid-2col">
+        <!-- Tarjeta Sobre la Biblioteca -->
+        <div class="era-card scroll-reveal slide-up">
+            <div class="era-card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80" alt="Espacio de lectura" class="era-card-img">
+                <div class="era-img-tag">INFRAESTRUCTURA</div>
             </div>
+            <div class="era-card-body">
+                <h2 class="era-section-heading">📖 Sobre la biblioteca</h2>
+                
+                <div class="era-info-block">
+                    <h4>🏫 Un espacio para todos</h4>
+                    <p>Espacio abierto durante los recreos para estudiar, leer o compartir momentos de tranquilidad.</p>
+                </div>
 
-            <h2>
-                OpenEduca
-            </h2>
+                <div class="era-info-block">
+                    <h4>📚 Material de estudio</h4>
+                    <p>Colección bibliográfica de apoyo académico para todas las asignaturas y proyectos del liceo.</p>
+                </div>
 
+                <div class="era-info-block">
+                    <h4>🦸 Cómics y lectura recreativa</h4>
+                    <p>Lecturas para entretenimiento, novelas gráficas, mangas y colecciones de cómic.</p>
+                </div>
+
+                <div class="era-info-block">
+                    <h4>🧑‍🎓 Diseñado para estudiantes</h4>
+                    <p>Área acondicionada con conexión, mesas de trabajo individual y zonas colaborativas.</p>
+                </div>
+            </div>
         </div>
 
-    </header>
+        <!-- Tarjeta Horarios -->
+        <div class="era-card scroll-reveal slide-up delay-1">
+            <div class="era-card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80" alt="Horario biblioteca" class="era-card-img">
+                <div class="era-img-tag">DISPONIBILIDAD</div>
+            </div>
+            <div class="era-card-body">
+                <h2 class="era-section-heading">🕒 Horarios & Acceso</h2>
 
-
-    <!-- =========================
-         CONTENIDO PRINCIPAL
-    ========================== -->
-
-    <main>
-
-        <section class="bienvenida">
-
-            <h1>
-                📚 Biblioteca
-            </h1>
-
-            <p>
-                Un espacio para estudiar, leer y disfrutar
-                durante los recreos.
-            </p>
-
-        </section>
-
-
-        <!-- =========================
-             INFORMACIÓN PRINCIPAL
-        ========================== -->
-
-        <section class="contenedor">
-
-
-            <!-- ¿QUÉ ES LA BIBLIOTECA? -->
-
-            <div class="tarjeta">
-
-                <h2>
-                    📖 Sobre la biblioteca
-                </h2>
-
-
-                <div class="dato">
-
-                    <strong>
-                        🏫 Un espacio para todos
-                    </strong>
-
-                    <span>
-                        La biblioteca es un espacio del liceo
-                        donde los estudiantes pueden acudir
-                        durante los recreos para estudiar,
-                        leer o pasar un buen momento.
-                    </span>
-
+                <div class="era-info-block highlight">
+                    <h4> Recreos</h4>
+                    <p>Abierto de forma continua durante cada periodo de descanso de la jornada escolar.</p>
                 </div>
 
-
-                <div class="dato">
-
-                    <strong>
-                        📚 Material de estudio
-                    </strong>
-
-                    <span>
-                        Cuenta con libros y diferentes
-                        materiales que pueden ser utilizados
-                        como apoyo para las clases y trabajos.
-                    </span>
-
+                <div class="era-info-block">
+                    <h4>📅 Días de atención</h4>
+                    <p>Lunes a Viernes jornada escolar.</p>
                 </div>
 
-
-                <div class="dato">
-
-                    <strong>
-                        🦸 Cómics y lectura recreativa
-                    </strong>
-
-                    <span>
-                        También puedes encontrar material
-                        pensado para la entretención, como
-                        cómics y otros tipos de lecturas.
-                    </span>
-
+                <div class="era-info-block">
+                    <h4>📍 Ubicación en el Liceo</h4>
+                    <p>Pabellón Central — Próximamente visible en tiempo real en el mapa 3D interactivo.</p>
                 </div>
-
-
-                <div class="dato">
-
-                    <strong>
-                        🧑‍🎓 Para los estudiantes
-                    </strong>
-
-                    <span>
-                        Puedes visitar la biblioteca durante
-                        los recreos para leer, estudiar,
-                        buscar material o simplemente
-                        disfrutar de un momento tranquilo.
-                    </span>
-
-                </div>
-
             </div>
-
-
-            <!-- HORARIOS -->
-
-            <div class="tarjeta">
-
-                <h2>
-                    🕒 Horario
-                </h2>
-
-
-                <div class="dato">
-
-                    <strong>
-                        Recreos
-                    </strong>
-
-                    <span>
-                        La biblioteca se encuentra disponible
-                        para los estudiantes durante los
-                        recreos.
-                    </span>
-
-                </div>
-
-
-                <div class="dato">
-
-                    <strong>
-                        📅 Días de atención
-                    </strong>
-
-                    <span>
-                        Lunes a viernes.
-                    </span>
-
-                </div>
-
-
-                <div class="dato">
-
-                    <strong>
-                        📍 Ubicación
-                    </strong>
-
-                    <span>
-                        Próximamente podrás encontrar la
-                        ubicación exacta de la biblioteca
-                        dentro del mapa interactivo.
-                    </span>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             ¿QUÉ PUEDES ENCONTRAR?
-        ========================== -->
-
-        <section class="tarjeta biblioteca-reglas">
-
-            <h2>
-                🔎 ¿Qué puedes encontrar?
-            </h2>
-
-
-            <div class="notificacion">
-                📘 Libros y material de apoyo para tus estudios.
-            </div>
-
-
-            <div class="notificacion">
-                🦸 Cómics y lecturas para entretenerte.
-            </div>
-
-
-            <div class="notificacion">
-                🎲 Juegos de mesa para compartir con tus amigos.
-            </div>
-
-
-            <div class="notificacion">
-                🪑 Un espacio tranquilo para leer, estudiar y divertirse.
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             RECOMENDACIONES
-        ========================== -->
-
-        <section class="tarjeta biblioteca-reglas">
-
-            <h2>
-                📋 Recomendaciones
-            </h2>
-
-
-            <div class="notificacion">
-                🤫 Respeta a los demás estudiantes manteniendo
-                un ambiente tranquilo.
-            </div>
-
-
-            <div class="notificacion">
-                📚 Cuida los libros y materiales que utilices.
-            </div>
-
-
-            <div class="notificacion">
-                🧹 Mantén limpio el espacio.
-            </div>
-
-
-            <div class="notificacion">
-                ❤️ Trata los materiales de la biblioteca
-                con cuidado para que otros estudiantes
-                también puedan disfrutarlos.
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             REGRESAR
-        ========================== -->
-
-        <div class="volver">
-
-            <a href="proyecto.html" class="boton-regresar">
-                ← Regresar al menú principal
-            </a>
-
         </div>
+    </section>
 
-    </main>
+    <!-- GALERÍA DE DESTACADOS: ¿QUÉ PUEDES ENCONTRAR? -->
+    <section class="era-feature-section scroll-reveal fade-up">
+        <h2 class="era-section-heading centered">🔎 ¿Qué puedes encontrar?</h2>
+        <p class="era-subtitle centered">Explora las distintas áreas y recursos disponibles en nuestra sala de recursos.</p>
 
+        <div class="era-features-grid">
+            <div class="era-feature-card scroll-reveal zoom-in">
+                <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80" alt="Libros">
+                <div class="era-feature-overlay">
+                    <span class="era-icon">📘</span>
+                    <h3>Libros de Apoyo</h3>
+                    <p>Textos escolares, diccionarios y enciclopedias.</p>
+                </div>
+            </div>
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
+            <div class="era-feature-card scroll-reveal zoom-in delay-1">
+                <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80" alt="Comics">
+                <div class="era-feature-overlay">
+                    <span class="era-icon">🦸</span>
+                    <h3>Cómics & Novelas</h3>
+                    <p>Colecciones recreativas para amantes de la historieta.</p>
+                </div>
+            </div>
 
-    <footer>
+            <div class="era-feature-card scroll-reveal zoom-in delay-2">
+                <img src="https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=600&q=80" alt="Juegos de mesa">
+                <div class="era-feature-overlay">
+                    <span class="era-icon">🎲</span>
+                    <h3>Juegos de Mesa</h3>
+                    <p>Ajedrez, estrategia y dinamismo para compartir.</p>
+                </div>
+            </div>
 
-        OpenEduca · Proyecto escolar 2026
+            <div class="era-feature-card scroll-reveal zoom-in delay-3">
+                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80" alt="Espacio de lectura">
+                <div class="era-feature-overlay">
+                    <span class="era-icon">🪑</span>
+                    <h3>Zona Confortable</h3>
+                    <p>Sillones y espacio silencioso de relax.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    </footer>
+    <!-- RECOMENDACIONES EDITORIALES -->
+    <section class="era-card era-rules-card scroll-reveal fade-up">
+        <h2 class="era-section-heading">📋 Recomendaciones de Convivencia</h2>
+        <div class="era-rules-list">
+            <div class="era-rule-item scroll-reveal slide-right">
+                <span class="era-rule-num">01</span>
+                <div>
+                    <strong>Ambiente Tranquilo</strong>
+                    <p>Respeta a los demás estudiantes manteniendo un volumen de voz moderado.</p>
+                </div>
+            </div>
+            <div class="era-rule-item scroll-reveal slide-right delay-1">
+                <span class="era-rule-num">02</span>
+                <div>
+                    <strong>Cuidado del Material</strong>
+                    <p>Trata los libros y juegos con delicadeza para conservarlos en óptimas condiciones.</p>
+                </div>
+            </div>
+            <div class="era-rule-item scroll-reveal slide-right delay-2">
+                <span class="era-rule-num">03</span>
+                <div>
+                    <strong>Limpieza y Orden</strong>
+                    <p>Deja las sillas y el espacio impecable al retirarte a tus clases.</p>
+                </div>
+            </div>
+            <div class="era-rule-item scroll-reveal slide-right delay-3">
+                <span class="era-rule-num">04</span>
+                <div>
+                    <strong>Comunidad liceana</strong>
+                    <p>Un bien común pensado para el aprendizaje de todas las generaciones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <div class="era-footer-btn scroll-reveal fade-up">
+        <a href="proyecto.html" class="btn-era-primary">← Regresar al menú principal</a>
+    </div>
+</main>
 
+<footer style="text-align: center; padding: 40px; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 13px; font-family: 'Syne', sans-serif; letter-spacing: 2px;">
+    LICEOMAP ARCHITECTURE · 2026
+</footer>
+
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+const lenis = new Lenis({ duration: 1.2, smoothWheel: true, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+
+document.addEventListener("DOMContentLoaded", function() {
+    const usuarioGuardado = localStorage.getItem("usuarioLiceo");
+    if (usuarioGuardado && document.getElementById("btnPerfilNav")) {
+        const usuario = JSON.parse(usuarioGuardado);
+        document.getElementById("btnPerfilNav").innerText = usuario.nombre.split(" ")[0];
+    }
+});
+
+const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll(".scroll-reveal").forEach(el => observer.observe(el));
+</script>
 </body>
-
 </html>

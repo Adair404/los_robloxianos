@@ -1,325 +1,322 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Salas - OpenEduca</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salas y Pabellones - LiceoMap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
 </head>
-
-
 <body>
 
-
 <header>
-
-    <div class="logo">
-
-        <div class="logo-icon">
-            🎓
-        </div>
-
-        <h2>
-            OpenEduca
-        </h2>
-
-    </div>
-
-</header>
-
-
-<main class="pagina-salas">
-
-
-    <section class="bienvenida">
-
-        <h1>
-            🚪 Salas del liceo
-        </h1>
-
-        <p>
-            Busca una sala o selecciona una de la lista
-            para conocer su ubicación.
-        </p>
-
-    </section>
-
-
-    <!-- BUSCADOR -->
-
-    <section class="buscador-salas">
-
-        <h2>
-            🔍 Buscar una sala
-        </h2>
-
-        <input
-            type="text"
-            id="busquedaSala"
-            placeholder="Ej: Sala 203"
-            onkeyup="buscarSala()">
-
-    </section>
-
-
-    <!-- LISTA -->
-
-    <section class="lista-salas">
-
-        <h2>
-            Salas disponibles
-        </h2>
-
-
-        <div id="listaSalas">
-
-
-            <button
-                class="sala-item"
-                onclick="mostrarEnMapa('Sala 101')">
-
-                <div class="sala-icon">
-                    🚪
-                </div>
-
-                <div class="sala-info">
-
-                    <h3>
-                        Sala 101
-                    </h3>
-
-                    <p>
-                        Primer piso · Edificio A
-                    </p>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="sala-item"
-                onclick="mostrarEnMapa('Sala 102')">
-
-                <div class="sala-icon">
-                    🚪
-                </div>
-
-                <div class="sala-info">
-
-                    <h3>
-                        Sala 102
-                    </h3>
-
-                    <p>
-                        Primer piso · Edificio A
-                    </p>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="sala-item"
-                onclick="mostrarEnMapa('Sala 103')">
-
-                <div class="sala-icon">
-                    🚪
-                </div>
-
-                <div class="sala-info">
-
-                    <h3>
-                        Sala 103
-                    </h3>
-
-                    <p>
-                        Primer piso · Edificio A
-                    </p>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="sala-item"
-                onclick="mostrarEnMapa('Sala 201')">
-
-                <div class="sala-icon">
-                    🚪
-                </div>
-
-                <div class="sala-info">
-
-                    <h3>
-                        Sala 201
-                    </h3>
-
-                    <p>
-                        Segundo piso · Edificio B
-                    </p>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="sala-item"
-                onclick="mostrarEnMapa('Sala 202')">
-
-                <div class="sala-icon">
-                    🚪
-                </div>
-
-                <div class="sala-info">
-
-                    <h3>
-                        Sala 202
-                    </h3>
-
-                    <p>
-                        Segundo piso · Edificio B
-                    </p>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="sala-item"
-                onclick="mostrarEnMapa('Sala 203')">
-
-                <div class="sala-icon">
-                    🚪
-                </div>
-
-                <div class="sala-info">
-
-                    <h3>
-                        Sala 203
-                    </h3>
-
-                    <p>
-                        Segundo piso · Edificio B
-                    </p>
-
-                </div>
-
-            </button>
-
-
-        </div>
-
-    </section>
-
-
-    <section
-        id="sinResultados"
-        class="sin-resultados">
-
-        <p>
-            No se encontró ninguna sala.
-        </p>
-
-    </section>
-
-
-    <a
-        href="proyecto.html"
-        class="regresar">
-
-        ← Regresar al menú principal
-
+    <a href="proyecto.html" class="logo" style="text-decoration: none; color: inherit;">
+        <div class="logo-icon">🎓</div>
+        <h2>LiceoMap</h2>
     </a>
 
+    <nav class="menu-principal">
+        <a href="proyecto.html#inicio">Inicio</a>
+        <a href="proyecto.html#explorar">Explorar</a>
+        <a href="salas.html" class="activo">Salas</a>
+        <a href="horarios.html">Horarios</a>
+        <a href="biblioteca.html">Biblioteca</a>
+    </nav>
 
+    <div class="header-buttons">
+        <a href="proyecto.html" class="login-header-button" style="background: rgba(255,255,255,0.15);">← Inicio</a>
+        <a href="login.html" id="btnPerfilNav" class="login-header-button">Iniciar sesión</a>
+    </div>
+</header>
+
+<main class="biblioteca-era-container">
+    <a href="proyecto.html" class="login-back scroll-reveal fade-up">← Volver al menú principal</a>
+
+    <!-- HERO EDITORIAL -->
+    <section class="era-hero scroll-reveal zoom-in">
+        <div class="era-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=80');"></div>
+        <div class="era-hero-overlay"></div>
+        <div class="era-hero-content">
+            <span class="era-badge">INFRAESTRUCTURA & ESPACIOS</span>
+            <h1 class="era-title">MAPA DE SALAS<br><span>Y PABELLONES</span></h1>
+            <p class="era-subtitle">Explora el plano arquitectónico interactivo del establecimiento, localiza laboratorios y ubica cualquier sala en tiempo real.</p>
+        </div>
+    </section>
+
+    <!-- MAPA INTERACTIVO ARQUITECTÓNICO CON NIVELES -->
+    <section class="era-card scroll-reveal slide-up" style="padding: 30px; margin-bottom: 30px;">
+        <div class="mapa-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+            <div>
+                <span class="era-badge">Navegación Espacial</span>
+                <h2 class="era-section-heading" style="margin: 5px 0 0;">🗺️ Plano Interactivo del Establecimiento</h2>
+                <p style="font-size: 13px; color: var(--text-secondary);">Selecciona un piso o haz clic directo en las instalaciones para ver detalles.</p>
+            </div>
+
+            <!-- Selector de Pisos -->
+            <div class="piso-selector">
+                <button class="btn-piso activo" onclick="cambiarPiso(1, this)">1° Piso</button>
+                <button class="btn-piso" onclick="cambiarPiso(2, this)">2° Piso</button>
+            </div>
+        </div>
+
+        <!-- BÚSQUEDA RÁPIDA -->
+        <div class="input-group" style="margin-bottom: 20px;">
+            <input type="text" id="inputBuscarSala" oninput="filtrarSalas()" placeholder="🔍 Buscar sala por nombre o asignatura (ej: 101, Química, Computación)...">
+        </div>
+
+        <!-- Contenedor del Mapa SVG Interactivo -->
+        <div class="mapa-svg-wrapper">
+            <svg id="planoLiceo" viewBox="0 0 900 500" class="plano-svg">
+                <defs>
+                    <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                    </pattern>
+                </defs>
+
+                <rect width="100%" height="100%" fill="#0f172a" />
+                <rect width="100%" height="100%" fill="url(#gridPattern)" />
+
+                <g id="capaExterior">
+                    <rect x="50" y="380" width="800" height="80" rx="12" fill="rgba(16, 185, 129, 0.08)" stroke="rgba(16, 185, 129, 0.3)" stroke-dasharray="4"/>
+                    <text x="450" y="425" text-anchor="middle" class="svg-label-zone">🌳 PATIO CENTRAL Y ÁREAS VERDES</text>
+                </g>
+
+                <!-- PISO 1 -->
+                <g id="piso1" class="capa-piso visible">
+                    <rect x="70" y="60" width="360" height="280" rx="16" class="pabellon-outline"/>
+                    <text x="85" y="90" class="pabellon-label">PABELLÓN A — 1° PISO</text>
+
+                    <g class="sala-shape" id="svg-Sala-101" onclick="seleccionarSala('Sala 101')">
+                        <rect x="90" y="110" width="150" height="200" rx="10"/>
+                        <text x="165" y="200" text-anchor="middle" class="sala-num-svg">101</text>
+                        <text x="165" y="220" text-anchor="middle" class="sala-sub-svg">Clases Generales</text>
+                    </g>
+
+                    <g class="sala-shape" id="svg-Sala-102" onclick="seleccionarSala('Sala 102')">
+                        <rect x="260" y="110" width="150" height="200" rx="10"/>
+                        <text x="335" y="200" text-anchor="middle" class="sala-num-svg">102</text>
+                        <text x="335" y="220" text-anchor="middle" class="sala-sub-svg">Clases Generales</text>
+                    </g>
+
+                    <rect x="470" y="60" width="360" height="280" rx="16" class="pabellon-outline"/>
+                    <text x="485" y="90" class="pabellon-label">BLOQUE DE CIENCIAS</text>
+
+                    <g class="sala-shape especial" id="svg-Lab.-de-Química" onclick="seleccionarSala('Lab. de Química')">
+                        <rect x="490" y="110" width="320" height="200" rx="10"/>
+                        <text x="650" y="200" text-anchor="middle" class="sala-num-svg">Lab. Química</text>
+                        <text x="650" y="220" text-anchor="middle" class="sala-sub-svg">Laboratorio Experimental</text>
+                    </g>
+                </g>
+
+                <!-- PISO 2 -->
+                <g id="piso2" class="capa-piso oculto">
+                    <rect x="70" y="60" width="760" height="280" rx="16" class="pabellon-outline"/>
+                    <text x="85" y="90" class="pabellon-label">PABELLÓN B — 2° PISO</text>
+
+                    <g class="sala-shape" id="svg-Sala-201" onclick="seleccionarSala('Sala 201')">
+                        <rect x="90" y="110" width="340" height="200" rx="10"/>
+                        <text x="260" y="200" text-anchor="middle" class="sala-num-svg">201</text>
+                        <text x="260" y="220" text-anchor="middle" class="sala-sub-svg">Ciencias Sociales</text>
+                    </g>
+
+                    <g class="sala-shape especial" id="svg-Lab.-Computación" onclick="seleccionarSala('Lab. Computación')">
+                        <rect x="460" y="110" width="350" height="200" rx="10"/>
+                        <text x="635" y="200" text-anchor="middle" class="sala-num-svg">Lab. Computación</text>
+                        <text x="635" y="220" text-anchor="middle" class="sala-sub-svg">Informática / PCs</text>
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </section>
+
+    <!-- FILTROS -->
+    <div class="scroll-reveal fade-up" style="display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;">
+        <button class="btn-filtro activo" onclick="filtrarCategoria('todos', this)">Todos los Espacios</button>
+        <button class="btn-filtro" onclick="filtrarCategoria('pabellon-a', this)">Pabellón A</button>
+        <button class="btn-filtro" onclick="filtrarCategoria('pabellon-b', this)">Pabellón B</button>
+        <button class="btn-filtro" onclick="filtrarCategoria('laboratorio', this)">Laboratorios</button>
+    </div>
+
+    <!-- TARJETAS -->
+    <div id="gridSalas" class="era-features-grid scroll-reveal zoom-in delay-1" style="margin-bottom: 50px;">
+        <div class="era-card card-sala" id="card-Sala-101" data-categoria="pabellon-a" data-nombre="sala 101 matematicas lenguaje">
+            <div class="era-card-body">
+                <span class="era-img-tag" style="position: static; display: inline-block; margin-bottom: 12px;">PABELLÓN A · 1° PISO</span>
+                <h3 style="font-family: 'Syne', sans-serif; font-size: 22px;">Sala 101</h3>
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0;"><strong>Ubicación:</strong> Pabellón A - Sector Central</p>
+                <p style="font-size: 13px; color: var(--text-secondary);"><strong>Uso:</strong> Clases Generales, Matemáticas, Lenguaje</p>
+                <div style="margin-top: 15px; font-size: 12px; font-weight: 700; color: var(--accent-green);">Capacidad: 45 alumnos</div>
+            </div>
+        </div>
+
+        <div class="era-card card-sala" id="card-Sala-102" data-categoria="pabellon-a" data-nombre="sala 102 artes fisicas artes visuales">
+            <div class="era-card-body">
+                <span class="era-img-tag" style="position: static; display: inline-block; margin-bottom: 12px;">PABELLÓN A · 1° PISO</span>
+                <h3 style="font-family: 'Syne', sans-serif; font-size: 22px;">Sala 102</h3>
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0;"><strong>Ubicación:</strong> Pabellón A - Sector Este</p>
+                <p style="font-size: 13px; color: var(--text-secondary);"><strong>Uso:</strong> Clases Generales y Artes Visuales</p>
+                <div style="margin-top: 15px; font-size: 12px; font-weight: 700; color: var(--accent-green);">Capacidad: 40 alumnos</div>
+            </div>
+        </div>
+
+        <div class="era-card card-sala" id="card-Sala-201" data-categoria="pabellon-b" data-nombre="sala 201 historia geografia ciencias sociales">
+            <div class="era-card-body">
+                <span class="era-img-tag" style="position: static; display: inline-block; margin-bottom: 12px;">PABELLÓN B · 2° PISO</span>
+                <h3 style="font-family: 'Syne', sans-serif; font-size: 22px;">Sala 201</h3>
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0;"><strong>Ubicación:</strong> Pabellón B - 2° Piso Norte</p>
+                <p style="font-size: 13px; color: var(--text-secondary);"><strong>Uso:</strong> Historia, Geografía y Ciencias Sociales</p>
+                <div style="margin-top: 15px; font-size: 12px; font-weight: 700; color: var(--accent-green);">Capacidad: 42 alumnos</div>
+            </div>
+        </div>
+
+        <div class="era-card card-sala" id="card-Lab.-de-Química" data-categoria="laboratorio" data-nombre="lab quimica laboratorio experimentos fisica biologia">
+            <div class="era-card-body">
+                <span class="era-img-tag" style="position: static; display: inline-block; margin-bottom: 12px; background: #3B82F6;">LABORATORIO · 1° PISO</span>
+                <h3 style="font-family: 'Syne', sans-serif; font-size: 22px;">Lab. Química</h3>
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0;"><strong>Ubicación:</strong> Bloque de Ciencias - Planta Baja</p>
+                <p style="font-size: 13px; color: var(--text-secondary);"><strong>Uso:</strong> Química, Física, Biología y Talleres</p>
+                <div style="margin-top: 15px; font-size: 12px; font-weight: 700; color: var(--accent-green);">Capacidad: 30 alumnos</div>
+            </div>
+        </div>
+
+        <div class="era-card card-sala" id="card-Lab.-Computación" data-categoria="laboratorio" data-nombre="lab computacion informatica tecnologia pcs programación">
+            <div class="era-card-body">
+                <span class="era-img-tag" style="position: static; display: inline-block; margin-bottom: 12px; background: #3B82F6;">TECNOLOGÍA · 2° PISO</span>
+                <h3 style="font-family: 'Syne', sans-serif; font-size: 22px;">Lab. Computación</h3>
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0;"><strong>Ubicación:</strong> Pabellón B - 2° Piso Sur</p>
+                <p style="font-size: 13px; color: var(--text-secondary);"><strong>Uso:</strong> Informática, Programación y Tecnología</p>
+                <div style="margin-top: 15px; font-size: 12px; font-weight: 700; color: var(--accent-green);">Capacidad: 35 Equipos PCs</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="era-footer-btn scroll-reveal fade-up">
+        <a href="proyecto.html" class="btn-era-primary">← Regresar al menú principal</a>
+    </div>
 </main>
 
+<footer style="text-align: center; padding: 40px; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 13px; font-family: 'Syne', sans-serif; letter-spacing: 2px;">
+    LICEOMAP ARCHITECTURE · 2026
+</footer>
 
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 <script>
+let lenis;
+try {
+    lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+} catch (e) {
+    console.warn("Lenis no pudo cargarse:", e);
+}
 
-function buscarSala() {
+let categoriaActual = 'todos';
 
-    const texto =
-        document
-        .getElementById("busquedaSala")
-        .value
-        .toLowerCase();
+function normalizarTexto(texto) {
+    if (!texto) return "";
+    return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+}
 
-
-    const salas =
-        document.querySelectorAll(".sala-item");
-
-
-    let encontradas = 0;
-
-
-    salas.forEach(function(sala) {
-
-        const nombre =
-            sala
-            .querySelector("h3")
-            .textContent
-            .toLowerCase();
-
-
-        if (nombre.includes(texto)) {
-
-            sala.style.display = "flex";
-
-            encontradas++;
-
-        } else {
-
-            sala.style.display = "none";
-
-        }
-
-    });
-
-
-    const mensaje =
-        document.getElementById("sinResultados");
-
-
-    if (encontradas === 0) {
-
-        mensaje.style.display = "block";
-
-    } else {
-
-        mensaje.style.display = "none";
-
+document.addEventListener("DOMContentLoaded", function() {
+    const usuarioGuardado = localStorage.getItem("usuarioLiceo");
+    if (usuarioGuardado && document.getElementById("btnPerfilNav")) {
+        const usuario = JSON.parse(usuarioGuardado);
+        document.getElementById("btnPerfilNav").innerText = usuario.nombre.split(" ")[0];
     }
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const salaUrl = urlParams.get('sala');
+    if (salaUrl) {
+        setTimeout(() => seleccionarSala(salaUrl), 300);
+    }
+});
+
+function cambiarPiso(piso, btn) {
+    document.querySelectorAll('.btn-piso').forEach(b => b.classList.remove('activo'));
+    if (btn) btn.classList.add('activo');
+
+    const p1 = document.getElementById('piso1');
+    const p2 = document.getElementById('piso2');
+
+    if (p1 && p2) {
+        if (piso === 1) {
+            p1.setAttribute('class', 'capa-piso visible');
+            p2.setAttribute('class', 'capa-piso oculto');
+        } else {
+            p1.setAttribute('class', 'capa-piso oculto');
+            p2.setAttribute('class', 'capa-piso visible');
+        }
+    }
 }
 
+function seleccionarSala(nombreSala) {
+    if (!nombreSala) return;
 
-function mostrarEnMapa(sala) {
+    const busquedaNorm = normalizarTexto(nombreSala);
 
-    alert(
-        "Sala seleccionada:\n\n" +
-        sala +
-        "\n\n" +
-        "Aquí se mostrará su ubicación en el mapa interactivo."
-    );
+    if (busquedaNorm.includes("201") || busquedaNorm.includes("computacion")) {
+        cambiarPiso(2, document.querySelectorAll('.btn-piso')[1]);
+    } else {
+        cambiarPiso(1, document.querySelectorAll('.btn-piso')[0]);
+    }
 
+    document.querySelectorAll('.sala-shape').forEach(s => s.classList.remove('activa'));
+    
+    document.querySelectorAll('.sala-shape').forEach(el => {
+        if (normalizarTexto(el.id).includes(busquedaNorm)) {
+            el.classList.add('activa');
+        }
+    });
+
+    const inputBuscar = document.getElementById('inputBuscarSala');
+    if (inputBuscar) {
+        inputBuscar.value = nombreSala;
+        filtrarSalas();
+    }
+
+    document.querySelectorAll('.card-sala').forEach(c => c.classList.remove('destacada'));
+    
+    document.querySelectorAll('.card-sala').forEach(card => {
+        if (normalizarTexto(card.id).includes(busquedaNorm) || normalizarTexto(card.dataset.nombre).includes(busquedaNorm)) {
+            card.classList.add('destacada');
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
 }
 
+function filtrarCategoria(cat, btn) {
+    categoriaActual = cat;
+    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('activo'));
+    if (btn) btn.classList.add('activo');
+    filtrarSalas();
+}
+
+function filtrarSalas() {
+    const input = document.getElementById('inputBuscarSala');
+    if (!input) return;
+    
+    const texto = normalizarTexto(input.value);
+    const tarjetas = document.querySelectorAll('.card-sala');
+
+    tarjetas.forEach(card => {
+        const nombre = normalizarTexto(card.getAttribute('data-nombre') || '');
+        const cat = card.getAttribute('data-categoria');
+        const coincideTexto = nombre.includes(texto);
+        const coincideCategoria = categoriaActual === 'todos' || cat === categoriaActual;
+
+        card.style.display = (coincideTexto && coincideCategoria) ? "block" : "none";
+    });
+}
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll(".scroll-reveal").forEach(el => observer.observe(el));
 </script>
-
-
 </body>
-
 </html>
