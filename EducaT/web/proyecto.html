@@ -3,204 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LiceoMap | Liceo Antonio Varas de la Barra</title>
+    <title>LiceoMap | Plataforma de Orientación Escolar</title>
     
     <!-- Estilos -->
     <link rel="stylesheet" href="Style.css">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
 
-    <!-- Malla de gradientes ambiental -->
+    <!-- Malla ambiental de fondo -->
     <div class="page-mesh-bg"></div>
 
-    <!-- 1. LOADER CINEMÁTICO -->
+    <!-- 1. LOADER CINEMÁTICO DE ENTRADA -->
     <div class="loader">
-        <div class="mask-text">
-            <div class="loader-text">LiceoMap</div>
+        <div class="loader-content">
+            <img src="image-removebg-preview.png" alt="Logo AVB" class="loader-logo">
+            <div class="mask-text">
+                <div class="loader-text">LiceoMap.</div>
+            </div>
+            <p class="loader-sub">Arica • Chile</p>
         </div>
     </div>
 
-    <!-- 2. NAVEGACIÓN INSTITUCIONAL -->
+    <!-- 2. NAVEGACIÓN PREMIUM -->
     <nav class="navbar">
         <a href="#" class="nav-logo-wrapper">
             <img src="image-removebg-preview.png" alt="Logo Liceo AVB" class="nav-logo-img">
-            <span class="nav-logo">LiceoMap.</span>
+            <span class="nav-logo">LiceoMap<span class="dot">.</span></span>
         </a>
+
+        <!-- Selector de Liceo (Visión de Expansión) -->
+        <div class="liceo-selector-badge">
+            <i data-feather="map-pin"></i>
+            <span>Establecimiento:</span>
+            <select id="liceoSelect" class="liceo-dropdown">
+                <option value="b4" selected>Liceo B4 Antonio Varas (Arica)</option>
+                <option value="disabled" disabled>──  Proximantente... ──</option>
+            </select>
+        </div>
+
         <div class="nav-links">
-            <a href="#mapa-container" onclick="focusLocation(-18.4785, -70.3128, 18)">Salas</a>
-            <a href="#mapa-container" onclick="focusLocation(-18.4780, -70.3122, 18)">Horarios</a>
-            <a href="#mapa-container" onclick="focusLocation(-18.4788, -70.3130, 18)">Biblioteca</a>
+            <a href="#concepto">Concepto</a>
+            <a href="#servicios">Módulos App</a>
+            <a href="#mapa-container">Mapa Interactivo</a>
             <a href="#anuncios">Anuncios</a>
+            <a href="#app-preview" class="btn-nav-primary">Probar App</a>
         </div>
     </nav>
 
-    <!-- 3. HERO SECTION -->
+    <!-- 3. HERO SECTION CINEMÁTICO -->
     <header class="hero">
-        <img src="image_fddc2f.jpg" alt="Entrada Principal" class="hero-bg-image">
+        <img src="image_fddc2f.jpg" alt="Entrada Principal Liceo B4" class="hero-bg-image">
         <div class="hero-overlay"></div>
         
         <div class="hero-content">
             <div class="hero-status-bar">
                 <div class="status-indicator">
                     <span class="status-dot"></span>
-                    <span>2 avisos institucionales nuevos</span>
+                    <span>Proyecto Piloto Oficial • Liceo B4 Arica</span>
                 </div>
-                <span>• Arica, Chile</span>
+                <span><i data-feather="shield"></i> Sistema de Gestión Escolar</span>
             </div>
             
-            <div class="mask-text">
-                <h1 class="hero-title">Explora.</h1>
-            </div><br>
-            <div class="mask-text">
-                <h1 class="hero-title">Descubre.</h1>
-            </div><br>
-            <div class="mask-text">
-                <h1 class="hero-title">Conéctate.</h1>
+            <div class="hero-title-group">
+                <div class="mask-text"><h1 class="hero-title">EXPLORA.</h1></div>
+                <div class="mask-text"><h1 class="hero-title accent-text">UBÍCATE.</h1></div>
+                <div class="mask-text"><h1 class="hero-title">CONÉCTATE.</h1></div>
             </div>
             
             <p class="hero-subtitle">
-                Plataforma digital de orientación espacial, información académica y comunicación oficial del Liceo Antonio Varas de la Barra.
+                Plataforma digital de orientación espacial, consulta de horarios por RUT y comunicación directa en tiempo real para la comunidad del Liceo Antonio Varas de la Barra.
             </p>
+
+            <div class="hero-actions">
+                <a href="#mapa-container" class="btn-hero-primary">
+                    <i data-feather="navigation"></i> Abrir Mapa del Liceo B4
+                </a>
+                <a href="#servicios" class="btn-hero-secondary">
+                    <i data-feather="smartphone"></i> Conocer la App
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-scroll-indicator">
+            <span>Desliza para explorar</span>
+            <div class="scroll-line"></div>
         </div>
     </header>
 
-    <!-- 4. BLOQUE EDITORIAL 1 -->
-    <section class="editorial-split-section">
+    <!-- 4. BLOQUE EDITORIAL 1 (ANIMACIÓN CLIP-PATH ERA RESIDENCE) -->
+    <section class="editorial-split-section" id="concepto">
         <div class="editorial-img-wrapper">
-            <img src="estudiantes.png" alt="Comunidad Estudiantil">
+            <img src="estudiantes.png" alt="Comunidad Estudiantil Liceo B4">
+            <div class="img-badge">
+                <i data-feather="users"></i> Comunidad B4 Arica
+            </div>
         </div>
         <div class="editorial-content">
-            <span class="editorial-tag">Comunidad & Vida Escolar</span>
-            <h2>Espacios vivos para el aprendizaje diario.</h2>
-            <p>Conectamos la arquitectura del establecimiento con la cotidianidad de nuestros estudiantes, facilitando la orientación en cada pabellón y zona común de forma natural.</p>
+            <span class="editorial-tag">Orientación & Tecnología Escolar</span>
+            <h2>Espacios vivos, estudiantes orientados.</h2>
+            <p>Sabemos lo complejo que puede ser para los estudiantes de enseñanza media orientarse en el establecimiento durante los primeros días o encontrar salas de laboratorios específicas. <strong>LiceoMap</strong> conecta la arquitectura física del establecimiento con la tecnología móvil cotidianamente usada por los alumnos.</p>
+            <ul class="editorial-list">
+                <li><i data-feather="check-circle"></i> Ubicación exacta de pabellones y talleres técnico-profesionales.</li>
+                <li><i data-feather="check-circle"></i> Acceso rápido desde cualquier dispositivo smartphone.</li>
+            </ul>
         </div>
     </section>
 
-    <!-- 5. SECCIÓN EXPLORAR (SCROLL HORIZONTAL) -->
-    <section class="explore-section">
+    <!-- 5. SECCIÓN EXPLORAR MÓDULOS DE LA APP (SCROLL HORIZONTAL CINEMÁTICO) -->
+    <section class="explore-section" id="servicios">
         <div class="explore-track">
             
             <div class="explore-header">
-                <h2>Servicios del Campus.</h2>
-                <p>Desliza para conocer cada rincón, pabellón y servicio disponible en el establecimiento.</p>
+                <span class="editorial-tag" style="color:#4ade80;">Funcionalidades de la App</span>
+                <h2>Todo lo que incluye la Aplicación.</h2>
+                <p>Desliza lateralmente para descubrir cómo LiceoMap transforma la experiencia diaria dentro de tu Liceo.</p>
             </div>
 
-            <div class="explore-card" onclick="focusLocation(-18.4785, -70.3128, 18)">
-                <div class="card-num">01</div>
-                <div>
-                    <h3>Salas</h3>
-                    <p>Encuentra tu aula en segundos. Visualiza la distribución exacta de los pabellones y laboratorios.</p>
+            <!-- Card 1: Buscador de Salas -->
+            <div class="explore-card" onclick="focusLocation(-18.4785, -70.3128, 19)">
+                <div class="card-top">
+                    <span class="card-num">01</span>
+                    <i data-feather="search" class="card-icon"></i>
                 </div>
-                <div class="card-action">Ver en mapa &rarr;</div>
+                <div>
+                    <h3>Buscador de Salas</h3>
+                    <p>Encuentra tu aula en segundos. Filtra por pabellón, piso o especialidad técnica y obtén la ruta directa en el mapa.</p>
+                </div>
+                <div class="card-action">Ver en Mapa Interactivo &rarr;</div>
             </div>
 
-            <div class="explore-card" onclick="focusLocation(-18.4780, -70.3122, 18)">
-                <div class="card-num">02</div>
-                <div>
-                    <h3>Horarios</h3>
-                    <p>Sincroniza tus bloques de estudio. Revisa la disponibilidad de espacios académicos en tiempo real.</p>
+            <!-- Card 2: Login y Horarios por RUT -->
+            <div class="explore-card" onclick="focusLocation(-18.4780, -70.3122, 19)">
+                <div class="card-top">
+                    <span class="card-num">02</span>
+                    <i data-feather="user-check" class="card-icon"></i>
                 </div>
-                <div class="card-action">Ver en mapa &rarr;</div>
+                <div>
+                    <h3>Horario por RUT</h3>
+                    <p>Al iniciar sesión con tu RUT y contraseña, la app reconoce tu curso automáticamente y te muestra los bloques del día sin enredos.</p>
+                </div>
+                <div class="card-action">Sincronización Personalizada &rarr;</div>
             </div>
 
-            <div class="explore-card" onclick="focusLocation(-18.4788, -70.3130, 18)">
-                <div class="card-num">03</div>
-                <div>
-                    <h3>Biblioteca</h3>
-                    <p>Accede a zonas de silencio, reservas de cubículos de estudio y recursos bibliográficos.</p>
+            <!-- Card 3: Biblioteca y Cubículos -->
+            <div class="explore-card" onclick="focusLocation(-18.4788, -70.3130, 19)">
+                <div class="card-top">
+                    <span class="card-num">03</span>
+                    <i data-feather="book-open" class="card-icon"></i>
                 </div>
-                <div class="card-action">Ver en mapa &rarr;</div>
+                <div>
+                    <h3>Biblioteca & Recursos</h3>
+                    <p>Ubica zonas de silencio, revisa disponibilidad de cubículos de estudio y consulta material pedagógico.</p>
+                </div>
+                <div class="card-action">Ver Pabellón de Lectura &rarr;</div>
             </div>
-            
-             <div class="explore-card" onclick="focusLocation(-18.4782, -70.3125, 18)">
-                <div class="card-num">04</div>
-                <div>
-                    <h3>Casino</h3>
-                    <p>Conoce los menús diarios, espacios comunes y flujos de afluencia para almorzar.</p>
+
+            <!-- Card 4: Casino Escolar -->
+            <div class="explore-card" onclick="focusLocation(-18.4782, -70.3125, 19)">
+                <div class="card-top">
+                    <span class="card-num">04</span>
+                    <i data-feather="coffee" class="card-icon"></i>
                 </div>
-                <div class="card-action">Ver en mapa &rarr;</div>
+                <div>
+                    <h3>Casino Estudiantil</h3>
+                    <p>Conoce los horarios de atención por nivel, zonas de colación y flujos de afluencia para almorzar sin filas.</p>
+                </div>
+                <div class="card-action">Ver Ubicación Casino &rarr;</div>
+            </div>
+
+            <!-- Card 5: Anuncios Emergentes -->
+            <div class="explore-card">
+                <div class="card-top">
+                    <span class="card-num">05</span>
+                    <i data-feather="bell" class="card-icon"></i>
+                </div>
+                <div>
+                    <h3>Alertas de Emergencia</h3>
+                    <p>Notificaciones push al instante en caso de salidas tempranas por mal tiempo o comunicados urgentes del liceo.</p>
+                </div>
+                <div class="card-action">Comunicación Oficial &rarr;</div>
             </div>
 
         </div>
     </section>
 
-    <!-- 6. BLOQUE EDITORIAL 2 -->
+    <!-- 6. BLOQUE EDITORIAL 2 (ANIMACIÓN REVERSE & PROYECCIÓN NACIONAL) -->
     <section class="editorial-split-section reverse">
         <div class="editorial-img-wrapper">
-            <img src="image_fddfee.png" alt="Actividades Institucionales">
+            <img src="image_fddfee.png" alt="Actividades e Innovación en Liceo">
+            <div class="img-badge">
+                <i data-feather="award"></i> Proyecto de Fin de Año 2026
+            </div>
         </div>
         <div class="editorial-content">
-            <span class="editorial-tag">Tradición & Futuro</span>
-            <h2>Innovación constante en nuestras actividades.</h2>
-            <p>Un espacio dinámico donde impulsamos el desarrollo técnico-profesional de los jóvenes, integrando la tecnología y la participación activa en cada evento institucional.</p>
+            <span class="editorial-tag">Nacimiento & Expansión</span>
+            <h2>Nacemos en Arica para llegar a todo Chile.</h2>
+            <p>LiceoMap inicia como una iniciativa de innovación tecnológica en el <strong>Liceo Antonio Varas de la Barra (B4)</strong>. Nuestra meta es validar el sistema aquí y posteriormente adaptar el motor interactivo para cualquier establecimiento del país que requiera modernizar su orientación escolar.</p>
         </div>
     </section>
 
-    <!-- 7. EL MAPA -->
+    <!-- 7. EL MAPA INTERACTIVO (DEMO DEL ESTABLECIMIENTO) -->
     <section class="map-section" id="mapa-container">
         <div class="map-wrapper">
             <div class="map-overlay">
-                <h3>Liceo Antonio Varas de la Barra</h3>
-                <p>Avenida Loa #2200, Arica • Mapa interactivo</p>
+                <div class="map-overlay-header">
+                    <span class="live-dot"></span>
+                    <h3>Liceo Antonio Varas de la Barra (B4)</h3>
+                </div>
+                <p><i data-feather="map-pin"></i> Av. Loa #2200, Arica • Mapa Interactivo de Prueba</p>
+                
+                <div class="map-quick-buttons">
+                    <button onclick="focusLocation(-18.4785, -70.3128, 19)" class="btn-map-quick">Salas</button>
+                    <button onclick="focusLocation(-18.4780, -70.3122, 19)" class="btn-map-quick">Horarios</button>
+                    <button onclick="focusLocation(-18.4788, -70.3130, 19)" class="btn-map-quick">Biblioteca</button>
+                    <button onclick="focusLocation(-18.4782, -70.3125, 19)" class="btn-map-quick">Casino</button>
+                </div>
             </div>
             <div id="map"></div>
         </div>
     </section>
 
-    <!-- 8. ANUNCIOS -->
+    <!-- 8. CANAL OFICIAL DE ANUNCIOS GLOBALES -->
     <section class="anuncios-section" id="anuncios">
         <div class="anuncios-header">
             <div>
-                <h2>Canal Oficial<br>de Anuncios.</h2>
+                <span class="editorial-tag" style="color:#d97706;">Módulo de la App</span>
+                <h2>Canal Oficial<br>de Anuncios Globales.</h2>
             </div>
-            <p>Mantente al día con los comunicados oficiales, modificaciones de bloques y eventos del establecimiento.</p>
+            <p>Así visualizan los estudiantes la información crítica enviada por los inspectores y dirección del colegio.</p>
         </div>
 
         <div class="anuncios-grid">
-            <div class="anuncio-card">
+            <!-- Anuncio 1 -->
+            <div class="anuncio-card urgente">
                 <div>
                     <div class="anuncio-meta">
-                        <span>Hoy, 08:30 hrs</span>
-                        <span class="tag-urgente">Importante</span>
+                        <span><i data-feather="clock"></i> Hoy, 08:30 hrs</span>
+                        <span class="tag-urgente">Alerta de Tiempo / Salida Temprana</span>
                     </div>
-                    <h3>Modificación de Bloques de Horario</h3>
-                    <p>Revisa la actualización en la distribución de los bloques académicos para la jornada de tarde debido a actividades extracurriculares.</p>
+                    <h3>Suspensión de actividades por contingencia climática</h3>
+                    <p>Por disposición oficial, la jornada de la tarde finalizará a las 13:00 hrs. La app mantendrá informada a la comunidad.</p>
                 </div>
-                <div class="anuncio-link">Ver detalles &rarr;</div>
+                <div class="anuncio-link">Detalles del comunicado &rarr;</div>
             </div>
 
+            <!-- Anuncio 2 -->
             <div class="anuncio-card">
                 <div>
                     <div class="anuncio-meta">
-                        <span>Ayer</span>
-                        <span>Comunidad</span>
+                        <span><i data-feather="calendar"></i> Ayer</span>
+                        <span class="tag-info">Académico</span>
                     </div>
-                    <h3>Apertura de Cubículos en Biblioteca</h3>
-                    <p>Nuevos espacios de lectura silenciosa habilitados en el segundo piso del pabellón principal. Consulta disponibilidad en tiempo real.</p>
+                    <h3>Modificación de Bloques de Horario</h3>
+                    <p>Revisa la actualización en la distribución de los bloques académicos para los terceros y cuartos medios técnico-profesionales.</p>
+                </div>
+                <div class="anuncio-link">Ver actualización de bloques &rarr;</div>
+            </div>
+
+            <!-- Anuncio 3 -->
+            <div class="anuncio-card">
+                <div>
+                    <div class="anuncio-meta">
+                        <span><i data-feather="book"></i> Hace 2 días</span>
+                        <span class="tag-info">Biblioteca</span>
+                    </div>
+                    <h3>Apertura de Cubículos de Estudio</h3>
+                    <p>Nuevos espacios de lectura silenciosa habilitados en el segundo piso. Reserva tu cupo mostrando tu app.</p>
                 </div>
                 <div class="anuncio-link">Explorar espacio &rarr;</div>
             </div>
         </div>
     </section>
 
-    <!-- 9. FOOTER -->
+    <!-- 9. MOCKUP DE INICIO DE SESIÓN / APP PREVIEW -->
+    <section class="app-preview-section" id="app-preview">
+        <div class="app-preview-box">
+            <div class="app-preview-text">
+                <span class="editorial-tag">Experiencia de Usuario</span>
+                <h2>Ingresa con tu RUT y accede a tu Horario.</h2>
+                <p>La aplicación cuenta con un sistema de autenticación seguro. Al escribir tu RUT, el sistema deduce tu curso automáticamente.</p>
+                
+                <div class="app-features-mini">
+                    <div class="feature-item"><i data-feather="lock"></i> Acceso Seguro</div>
+                    <div class="feature-item"><i data-feather="zap"></i> Sincronización al instante</div>
+                    <div class="feature-item"><i data-feather="wifi-off"></i> Funciona offline en el mapa</div>
+                </div>
+            </div>
+
+            <div class="app-mockup-card">
+                <div class="mockup-header">
+                    <img src="image-removebg-preview.png" alt="Logo" class="mockup-logo">
+                    <span>LiceoMap App Login</span>
+                </div>
+                <form class="mockup-form" onsubmit="event.preventDefault();">
+                    <label>RUT del Estudiante</label>
+                    <input type="text" placeholder="12.345.678-K" disabled value="21.456.789-0">
+                    
+                    <label>Contraseña</label>
+                    <input type="password" value="••••••••" disabled>
+                    
+                    <button class="btn-mockup" type="button">Iniciar Sesión (Demostración)</button>
+                    
+                    <div class="mockup-course-detected">
+                        <i data-feather="check"></i> Curso detectado: <strong>3° Medio B PROGRAMACION</strong>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER INSTITUCIONAL -->
     <footer class="footer-institucional">
         <div class="footer-info">
-            <h4>Liceo Antonio Varas de la Barra</h4>
-            <p>Avenida Loa #2200, Arica, Chile<br>Educación Media Técnico Profesional</p>
+            <div class="footer-brand">
+                <img src="image-removebg-preview.png" alt="Logo AVB" class="footer-logo">
+                <h4>LiceoMap</h4>
+            </div>
+            <p>Plataforma de Orientación Espacial y Gestión Escolar.<br>Desarrollado para el Liceo Antonio Varas de la Barra (Arica, Chile).</p>
         </div>
         <div class="footer-links">
-            <a href="#anuncios">Canal de Anuncios</a>
-            <a href="#mapa-container">Mapa Interactivo</a>
-            <a href="https://liceoavb.cl" target="_blank">Sitio Web Oficial (liceoavb.cl)</a>
+            <span class="footer-title">Navegación</span>
+            <a href="#concepto">Concepto</a>
+            <a href="#servicios">Módulos de la App</a>
+            <a href="#mapa-container">Mapa Interactivo B4</a>
+            <a href="#anuncios">Anuncios</a>
+            <a href="https://liceoavb.cl" target="_blank">Sitio Web Oficial Liceo B4</a>
         </div>
     </footer>
 
     <!-- ==========================================
-         SCRIPTS
+         SCRIPTS Y ANIMACIONES GSAP / LENIS / LEAFLET
     =========================================== -->
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -208,8 +345,12 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
+        // Inicializar iconos Feather
+        feather.replace();
+
+        // 1. Lenis Smooth Scroll Setup
         const lenis = new Lenis({
-            duration: 1.3,
+            duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smooth: true
         });
@@ -225,20 +366,23 @@
         gsap.ticker.add((time) => { lenis.raf(time * 1000); });
         gsap.ticker.lagSmoothing(0, 0);
 
+        // 2. Timeline del Loader
         const tl = gsap.timeline();
         document.body.style.overflow = 'hidden';
 
-        tl.to(".loader-text", { y: "0%", duration: 1, ease: "power4.out", delay: 0.2 })
-          .to(".loader-text", { y: "-110%", duration: 0.8, ease: "power4.inOut", delay: 0.5 })
-          .to(".loader", { y: "-100%", duration: 1.2, ease: "power4.inOut" }, "-=0.4")
-          .to(".hero-status-bar", { opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.6")
-          .to(".hero-title", { y: "0%", duration: 1.2, stagger: 0.15, ease: "power4.out" }, "-=0.8")
-          .to(".hero-subtitle", { opacity: 1, duration: 1, onComplete: () => { document.body.style.overflow = 'auto'; } }, "-=0.6");
+        tl.to(".loader-logo", { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)" })
+          .to(".loader-text", { y: "0%", duration: 0.9, ease: "power4.out" }, "-=0.4")
+          .to(".loader-sub", { opacity: 0.8, duration: 0.6 }, "-=0.4")
+          .to(".loader-text", { y: "-110%", duration: 0.8, ease: "power4.inOut", delay: 0.4 })
+          .to(".loader", { y: "-100%", duration: 1.1, ease: "power4.inOut" }, "-=0.4")
+          .to(".hero-status-bar", { opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.5")
+          .to(".hero-title", { y: "0%", duration: 1.1, stagger: 0.12, ease: "power4.out" }, "-=0.7")
+          .to(".hero-subtitle, .hero-actions", { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, onComplete: () => { document.body.style.overflow = 'auto'; } }, "-=0.6");
 
-        // Hero Parallax
+        // 3. Hero Parallax Scroll
         gsap.to(".hero-bg-image", {
-            yPercent: 35,
-            scale: 1,
+            yPercent: 30,
+            scale: 1.05,
             ease: "none",
             scrollTrigger: {
                 trigger: ".hero",
@@ -248,35 +392,22 @@
             }
         });
 
-        gsap.to(".hero-content", {
-            yPercent: -25,
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        // Era Residence Style Cinematic Clip-Path & Scrub Animation for Editorials
+        // 4. Animación Editorial estilo Era Residence (Clip-Path & Zoom)
         gsap.utils.toArray('.editorial-split-section').forEach((section) => {
             const imgWrapper = section.querySelector('.editorial-img-wrapper');
             const img = section.querySelector('.editorial-img-wrapper img');
             const content = section.querySelector('.editorial-content');
 
-            const editorialTl = gsap.timeline({
+            gsap.timeline({
                 scrollTrigger: {
                     trigger: section,
                     start: "top 80%",
-                    end: "top 20%",
+                    end: "top 25%",
                     scrub: 1.2
                 }
-            });
-
-            editorialTl.to(imgWrapper, {
-                clipPath: "inset(0% 0 0% 0 round 3.5rem)",
+            })
+            .to(imgWrapper, {
+                clipPath: "inset(0% 0 0% 0 round 3rem)",
                 ease: "none"
             }, 0)
             .to(img, {
@@ -291,80 +422,61 @@
             }, 0);
         });
 
-        // Servicios del Campus Horizontal Scroll with Staggered Card Entrance
+        // 5. Scroll Horizontal de Módulos
         const exploreTrack = document.querySelector('.explore-track');
-        
         function getScrollAmount() {
-            let trackWidth = exploreTrack.scrollWidth;
-            return -(trackWidth - window.innerWidth);
+            return -(exploreTrack.scrollWidth - window.innerWidth);
         }
 
-        let horizontalTween;
-        function initHorizontalScroll() {
-            if (window.innerWidth > 900) {
-                horizontalTween = gsap.to(exploreTrack, {
-                    x: getScrollAmount,
-                    ease: "none"
-                });
+        if (window.innerWidth > 900) {
+            const horizontalTween = gsap.to(exploreTrack, {
+                x: getScrollAmount,
+                ease: "none"
+            });
 
-                ScrollTrigger.create({
+            ScrollTrigger.create({
+                trigger: ".explore-section",
+                start: "top top",
+                end: () => `+=${getScrollAmount() * -1}`,
+                pin: true,
+                animation: horizontalTween,
+                scrub: 1,
+                invalidateOnRefresh: true
+            });
+
+            gsap.timeline({
+                scrollTrigger: {
                     trigger: ".explore-section",
-                    start: "top top",
-                    end: () => `+=${getScrollAmount() * -1}`,
-                    pin: true,
-                    animation: horizontalTween,
-                    scrub: 1,
-                    invalidateOnRefresh: true
-                });
-
-                // Entrada dramática de los elementos al entrar a la sección explore
-                const exploreAnim = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: ".explore-section",
-                        start: "top 70%",
-                        toggleActions: "play none none reverse"
-                    }
-                });
-
-                exploreAnim.to(".explore-header", {
-                    opacity: 1,
-                    x: 0,
-                    duration: 1.2,
-                    ease: "power4.out"
-                })
-                .to(".explore-card", {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1.2,
-                    stagger: 0.15,
-                    ease: "power4.out"
-                }, "-=0.8");
-            }
+                    start: "top 70%",
+                    toggleActions: "play none none reverse"
+                }
+            })
+            .to(".explore-header", { opacity: 1, x: 0, duration: 1, ease: "power4.out" })
+            .to(".explore-card", { opacity: 1, y: 0, duration: 1, stagger: 0.15, ease: "power4.out" }, "-=0.7");
         }
-        initHorizontalScroll();
 
-        // Map Section Cinematic Expansion
+        // 6. Expansión del Mapa
         gsap.fromTo(".map-wrapper", 
-            { scale: 0.8, borderRadius: "4rem" },
+            { scale: 0.88, borderRadius: "3.5rem" },
             { 
                 scale: 1, 
-                borderRadius: "0rem", 
+                borderRadius: "1.5rem", 
                 ease: "power2.out",
                 scrollTrigger: {
                     trigger: ".map-section",
                     start: "top 85%",
-                    end: "top 15%",
+                    end: "top 20%",
                     scrub: true
                 }
             }
         );
 
-        // Anuncios Stagger Reveal con alta presencia
+        // 7. Reveal de Anuncios
         gsap.to(".anuncio-card", {
             opacity: 1,
             y: 0,
-            duration: 1.2,
-            stagger: 0.25,
+            duration: 1,
+            stagger: 0.2,
             ease: "power4.out",
             scrollTrigger: {
                 trigger: ".anuncios-section",
@@ -373,32 +485,34 @@
             }
         });
 
+        // 8. Leaflet Map setup (Liceo B4 Arica)
         const map = L.map('map', {
             zoomControl: false,
             scrollWheelZoom: false
-        }).setView([-18.4783, -70.3126], 17);
+        }).setView([-18.4783, -70.3126], 18);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap & CARTO',
             maxZoom: 20
         }).addTo(map);
 
         L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-        const markers = [
-            { lat: -18.4785, lng: -70.3128, title: "Pabellón de Salas" },
-            { lat: -18.4780, lng: -70.3122, title: "Área de Horarios y Administración" },
+        // Puntos de Interés en Liceo B4
+        const locations = [
+            { lat: -18.4785, lng: -70.3128, title: "Pabellón de Salas y Aulas" },
+            { lat: -18.4780, lng: -70.3122, title: "Administración y Horarios" },
             { lat: -18.4788, lng: -70.3130, title: "Biblioteca Central" },
             { lat: -18.4782, lng: -70.3125, title: "Casino Estudiantil" }
         ];
 
-        markers.forEach(m => {
-            L.marker([m.lat, m.lng]).addTo(map)
-              .bindPopup(`<b>${m.title}</b><br>Liceo Antonio Varas de la Barra`);
+        locations.forEach(loc => {
+            L.marker([loc.lat, loc.lng]).addTo(map)
+             .bindPopup(`<b>${loc.title}</b><br>Liceo B4 Antonio Varas de la Barra`);
         });
 
         window.focusLocation = function(lat, lng, zoomLevel) {
-            map.flyTo([lat, lng], zoomLevel, { duration: 1.5 });
+            map.flyTo([lat, lng], zoomLevel, { duration: 1.8 });
         };
     </script>
 </body>
